@@ -94,6 +94,9 @@ img { max-width: 100%; display: block; }
 .btn--ghost { background: transparent; color: var(--maroon); border-color: var(--gold); }
 .btn--ghost:hover { background: rgba(201,162,75,.12); box-shadow: none; }
 .btn--full { width: 100%; }
+/* For dark/maroon backgrounds (e.g. footer) — readable gold-on-dark */
+.btn--gold { background: var(--gold); color: var(--maroon); border-color: var(--gold-soft); font-weight: 500; }
+.btn--gold:hover { background: var(--gold-soft); box-shadow: 0 10px 22px rgba(0,0,0,.3); }
 
 /* ---------- Sections ---------- */
 .section {
@@ -278,25 +281,48 @@ img { max-width: 100%; display: block; }
 .cd-sep { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); align-self: flex-start; margin-top: .2rem; }
 
 /* =====================================================================
-   FOREVER US (polaroids)
+   FOREVER US (vertical carousel of polaroids)
    ===================================================================== */
-.polaroids {
-  margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem;
+.vcarousel {
+  position: relative; margin: 2rem auto 0; max-width: 300px;
+  display: flex; align-items: flex-start; gap: .6rem;
+}
+.vcarousel__track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 420px; overflow-y: auto;
+  scroll-snap-type: y mandatory; scroll-behavior: smooth;
+  -ms-overflow-style: none; scrollbar-width: none;
+  border-radius: 14px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+.vcarousel__track::-webkit-scrollbar { display: none; }
+.vslide {
+  height: 420px; scroll-snap-align: center;
+  display: grid; place-items: center; padding: .5rem;
 }
 .polaroid {
-  background: #fff; padding: .6rem .6rem 1.6rem; border-radius: 3px;
-  box-shadow: 0 8px 18px rgba(0,0,0,.14); cursor: pointer;
-  transition: transform .3s ease;
+  background: #fff; padding: .7rem .7rem 1.8rem; border-radius: 3px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.18); cursor: pointer;
+  transition: transform .35s ease; width: 220px;
 }
-.polaroid:nth-child(odd) { transform: rotate(-2.5deg); }
+.polaroid:nth-child(odd) { transform: rotate(-2deg); }
 .polaroid:nth-child(even) { transform: rotate(2deg); }
-.polaroid:hover { transform: rotate(0) translateY(-4px); }
+.polaroid:hover { transform: rotate(0) scale(1.02); }
 .polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
 .polaroid.bw img { filter: grayscale(1) contrast(1.05); }
 .polaroid figcaption {
-  font-family: var(--font-script); color: var(--rose); font-size: 1.2rem;
-  text-align: center; margin-top: .5rem; line-height: 1;
+  font-family: var(--font-script); color: var(--rose); font-size: 1.3rem;
+  text-align: center; margin-top: .55rem; line-height: 1;
 }
+/* dot indicators */
+.vcarousel__dots { display: flex; flex-direction: column; gap: .5rem; padding-top: 1rem; }
+.vcarousel__dots button {
+  width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+  background: rgba(142,27,27,.25); transition: background .25s ease, transform .25s ease;
+}
+.vcarousel__dots button.is-active { background: var(--maroon); transform: scale(1.3); }
 
 /* =====================================================================
    EVENTS & RITUALS

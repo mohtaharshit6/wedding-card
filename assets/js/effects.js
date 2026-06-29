@@ -137,20 +137,25 @@
       return { x: t.clientX - r.left, y: t.clientY - r.top };
     };
     const erase = (x, y) => {
-      ctx.beginPath(); ctx.arc(x, y, 22, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
     };
     const pct = () => {
-      const r = canvas.getBoundingClientRect();
       const img = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
       let clear = 0; for (let i = 3; i < img.length; i += 64) if (img[i] === 0) clear++;
       return clear / (img.length / 64);
     };
-    const check = () => {
+    const reveal = () => {
       if (done) return;
-      if (pct() > .55) { done = true; canvas.classList.add("is-cleared"); if (opts.onDone) opts.onDone(); }
+      done = true; canvas.classList.add("is-cleared"); if (opts.onDone) opts.onDone();
     };
+    const check = () => { if (!done && pct() > .20) reveal(); };
+    let moves = 0;
     const start = (e) => { drawing = true; const p = pos(e); erase(p.x, p.y); };
-    const move = (e) => { if (!drawing) return; e.preventDefault(); const p = pos(e); erase(p.x, p.y); };
+    const move = (e) => {
+      if (!drawing) return; e.preventDefault();
+      const p = pos(e); erase(p.x, p.y);
+      if (++moves % 5 === 0) check();   // live check while scratching
+    };
     const end = () => { if (drawing) { drawing = false; check(); } };
 
     canvas.addEventListener("mousedown", start);

@@ -28,12 +28,16 @@
   $('[data-footer="line2"]').textContent = W.footer.line2;
   $("#bgAudio").src = W.music.src;
 
-  /* ---------- Gallery (polaroids) ---------- */
-  $("#galleryGrid").innerHTML = W.gallery.map((g, i) => `
-    <figure class="polaroid${g.bw ? " bw" : ""}" data-idx="${i}">
-      <img src="${g.src}" alt="${g.caption || "Photo"}" loading="lazy" />
-      <figcaption>${g.caption || ""}</figcaption>
-    </figure>`).join("");
+  /* ---------- Gallery (vertical carousel) ---------- */
+  $("#galleryTrack").innerHTML = W.gallery.map((g, i) => `
+    <div class="vslide" data-slide="${i}">
+      <figure class="polaroid${g.bw ? " bw" : ""}" data-idx="${i}">
+        <img src="${g.src}" alt="${g.caption || "Photo"}" loading="lazy" />
+        <figcaption>${g.caption || ""}</figcaption>
+      </figure>
+    </div>`).join("");
+  $("#galleryDots").innerHTML = W.gallery.map((_, i) =>
+    `<button data-dot="${i}" aria-label="Photo ${i + 1}"></button>`).join("");
 
   /* ---------- Events ---------- */
   $("#eventsList").innerHTML = W.events.map(e => {
@@ -51,10 +55,6 @@
       </div>
     </article>`;
   }).join("");
-
-  /* ---------- RSVP preferences ---------- */
-  $("#rPref").innerHTML = (W.rsvp.preferences || ["No preference"])
-    .map(p => `<option>${p}</option>`).join("");
 
   /* ---------- Scroll reveal (after dynamic content injected) ---------- */
   const revealAll = () => $$(".reveal:not(.is-visible)").forEach(el => el.classList.add("is-visible"));
@@ -136,74 +136,62 @@
     obs.observe(wrap);
   }
 
-  /* ---------- Gallery lightbox ---------- */
-  const lb = $("#lightbox"), lbImg = $("#lbImg"); let li = 0;
-  const show = i => { li = (i + W.gallery.length) % W.gallery.length; lbImg.src = W.gallery[li].src; };
-  $("#galleryGrid").addEventListener("click", e => {
+  /* ---------- Gallery: vertical carousel (auto-advance + dots + lightbox) ---------- */
+  const track = $("#galleryTrack");
+  const slides = $$(".vslide", track);
+  const dots = $$("[data-dot]");
+  let cur = 0, autoTimer = null, userActive = false;
+
+  const goTo = (i, smooth = true) => {
+    cur = (i + slides.length) % slides.length;
+    track.scrollTo({ top: slides[cur].offsetTop, behavior: smooth ? "smooth" : "auto" });
+  };
+  const markActive = () => dots.forEach((d, i) => d.classList.toggle("is-active", i === cur));
+  markActive();
+
+  // keep dots in sync as the user scrolls/swipes
+  let scrollRaf;
+  track.addEventListener("scroll", () => {
+    cancelAnimationFrame(scrollRaf);
+    scrollRaf = requestAnimationFrame(() => {
+      let nearest = 0, best = Infinity;
+      slides.forEach((s, i) => { const d = Math.abs(s.offsetTop - track.scrollTop); if (d < best) { best = d; nearest = i; } });
+      cur = nearest; markActive();
+    });
+  }, { passive: true });
+
+  dots.forEach((d, i) => d.addEventListener("click", () => { userActive = true; goTo(i); }));
+
+  // auto-advance, paused while the user interacts
+  const startAuto = () => { stopAuto(); autoTimer = setInterval(() => { if (!userActive) goTo(cur + 1); }, 3200); };
+  const stopAuto = () => { if (autoTimer) clearInterval(autoTimer); };
+  ["pointerdown", "wheel", "touchstart"].forEach(ev => track.addEventListener(ev, () => {
+    userActive = true; stopAuto(); clearTimeout(track._resume);
+    track._resume = setTimeout(() => { userActive = false; startAuto(); }, 6000);
+  }, { passive: true }));
+  // only auto-play once the carousel is on screen
+  new IntersectionObserver((ents, ob) => {
+    ents.forEach(en => { if (en.isIntersecting) { startAuto(); } else { stopAuto(); } });
+  }, { threshold: 0.3 }).observe($("#galleryCarousel"));
+
+  /* ---------- Lightbox (tap a photo to enlarge) ---------- */
+  const lb = $("#lightbox"), lbImg = $("#lbImg"); let licur = 0;
+  const show = i => { licur = (i + W.gallery.length) % W.gallery.length; lbImg.src = W.gallery[licur].src; };
+  track.addEventListener("click", e => {
     const f = e.target.closest("[data-idx]"); if (f) { show(+f.dataset.idx); lb.classList.add("is-open"); lb.setAttribute("aria-hidden", "false"); }
   });
   const closeLb = () => { lb.classList.remove("is-open"); lb.setAttribute("aria-hidden", "true"); };
   $("#lbClose").addEventListener("click", closeLb);
-  $("#lbNext").addEventListener("click", () => show(li + 1));
-  $("#lbPrev").addEventListener("click", () => show(li - 1));
+  $("#lbNext").addEventListener("click", () => show(licur + 1));
+  $("#lbPrev").addEventListener("click", () => show(licur - 1));
   lb.addEventListener("click", e => { if (e.target === lb) closeLb(); });
   document.addEventListener("keydown", e => {
     if (!lb.classList.contains("is-open")) return;
-    if (e.key === "Escape") closeLb(); if (e.key === "ArrowRight") show(li + 1); if (e.key === "ArrowLeft") show(li - 1);
+    if (e.key === "Escape") closeLb(); if (e.key === "ArrowRight") show(licur + 1); if (e.key === "ArrowLeft") show(licur - 1);
   });
   let tx = null;
   lb.addEventListener("touchstart", e => tx = e.touches[0].clientX, { passive: true });
-  lb.addEventListener("touchend", e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) show(li + (dx < 0 ? 1 : -1)); tx = null; });
-
-  /* ---------- RSVP attend toggle ---------- */
-  $$(".attend__btn").forEach(b => b.addEventListener("click", () => {
-    $$(".attend__btn").forEach(x => x.classList.remove("is-active"));
-    b.classList.add("is-active");
-    $("#rAttend").value = b.dataset.attend;
-  }));
-
-  /* ---------- RSVP submit ---------- */
-  const form = $("#rsvpForm"), status = $("#rsvpStatus");
-  const setStatus = (m, c) => { status.textContent = m; status.className = "rsvp__status " + (c || ""); };
-  const showThanks = () => {
-    $("#rsvpFormWrap").hidden = true;
-    const ty = $("#thankyou"); ty.hidden = false;
-    const r = ty.getBoundingClientRect();
-    if (window.FX) FX.burst(innerWidth / 2, Math.max(120, r.top + 80), { count: 140 });
-  };
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const d = {
-      name: $("#rName").value.trim(), contact: $("#rContact").value.trim(),
-      attending: $("#rAttend").value, guests: $("#rGuests").value,
-      preference: $("#rPref").value, message: $("#rMsg").value.trim(),
-    };
-    if (!d.name) { setStatus("Please enter your name.", "err"); return; }
-    const r = W.rsvp;
-    const summary = `RSVP — ${d.name}\n${d.attending}\nGuests: ${d.guests}\nMeal: ${d.preference}` +
-      (d.contact ? `\nContact: ${d.contact}` : "") + (d.message ? `\nMessage: ${d.message}` : "");
-
-    if (r.provider === "formspree" && r.formspreeId) {
-      setStatus("Sending…");
-      fetch("https://formspree.io/f/" + r.formspreeId, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) })
-        .then(res => res.ok ? showThanks() : setStatus("Something went wrong — please try again.", "err"))
-        .catch(() => setStatus("Network error — please try again.", "err"));
-    } else if (r.provider === "googleForm" && r.googleForm.action) {
-      const fd = new FormData(), g = r.googleForm;
-      if (g.nameField) fd.append(g.nameField, d.name);
-      if (g.attendingField) fd.append(g.attendingField, d.attending);
-      if (g.guestsField) fd.append(g.guestsField, d.guests);
-      if (g.messageField) fd.append(g.messageField, d.message);
-      fetch(g.action, { method: "POST", mode: "no-cors", body: fd }).then(showThanks).catch(showThanks);
-    } else if (r.provider === "mailto") {
-      window.location.href = `mailto:${r.email}?subject=${encodeURIComponent("Wedding RSVP — " + d.name)}&body=${encodeURIComponent(summary)}`;
-      showThanks();
-    } else { // whatsapp
-      window.open("https://wa.me/" + r.whatsappNumber + "?text=" + encodeURIComponent(summary), "_blank");
-      showThanks();
-    }
-  });
+  lb.addEventListener("touchend", e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) show(licur + (dx < 0 ? 1 : -1)); tx = null; });
 
   /* ---------- Share ---------- */
   $("#shareBtn").addEventListener("click", async () => {

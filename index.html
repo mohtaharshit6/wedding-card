@@ -94,11 +94,14 @@
       <button class="btn btn--ghost reveal" id="calBtn">＋ Add to Calendar</button>
     </section>
 
-    <!-- ===================== FOREVER US (gallery) ===================== -->
+    <!-- ===================== FOREVER US (vertical carousel) ===================== -->
     <section class="section forever" id="forever">
       <h2 class="display script-display reveal">Forever Us</h2>
       <p class="section__sub reveal">A few of our favourite moments</p>
-      <div class="polaroids" id="galleryGrid"></div>
+      <div class="vcarousel reveal" id="galleryCarousel">
+        <div class="vcarousel__track" id="galleryTrack"></div>
+        <div class="vcarousel__dots" id="galleryDots"></div>
+      </div>
     </section>
 
     <!-- ===================== EVENTS & RITUALS ===================== -->
@@ -121,59 +124,12 @@
       </div>
     </section>
 
-    <!-- ===================== RSVP ===================== -->
-    <section class="section rsvp" id="rsvp">
-      <div class="rsvp__form-wrap" id="rsvpFormWrap">
-        <h2 class="display reveal">RSVP</h2>
-        <p class="section__sub reveal">Kindly respond by 1 June 2026</p>
-        <form class="rsvp__form reveal" id="rsvpForm">
-          <div class="field">
-            <label for="rName">Your Name</label>
-            <input id="rName" name="name" type="text" required autocomplete="name" />
-          </div>
-          <div class="field">
-            <label for="rContact">Phone / Email</label>
-            <input id="rContact" name="contact" type="text" autocomplete="tel" />
-          </div>
-          <div class="field">
-            <label>Will you join us?</label>
-            <div class="attend">
-              <button type="button" class="attend__btn is-active" data-attend="Joyfully accepts">Joyfully Accept ✓</button>
-              <button type="button" class="attend__btn" data-attend="Regretfully declines">Regretfully Decline</button>
-            </div>
-            <input type="hidden" name="attending" id="rAttend" value="Joyfully accepts" />
-          </div>
-          <div class="field">
-            <label for="rGuests">Number of Guests</label>
-            <input id="rGuests" name="guests" type="number" min="1" max="20" value="1" />
-          </div>
-          <div class="field">
-            <label for="rPref">Meal Preference</label>
-            <select id="rPref" name="preference"></select>
-          </div>
-          <div class="field">
-            <label for="rMsg">A message / advice for us</label>
-            <textarea id="rMsg" name="message" rows="3" placeholder="something sweet, funny, or wise…"></textarea>
-          </div>
-          <button class="btn btn--full" type="submit">Send RSVP</button>
-          <p class="rsvp__status" id="rsvpStatus" role="status"></p>
-        </form>
-      </div>
-
-      <!-- Thank-you state (revealed after submit) -->
-      <div class="thankyou" id="thankyou" hidden>
-        <div class="thankyou__check">✓</div>
-        <h2 class="display">Thank You!</h2>
-        <p class="thankyou__msg">Your response has been received. We can’t wait to celebrate with you. 💌</p>
-      </div>
-    </section>
-
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
       <p class="footer__line1" data-footer="line1"></p>
       <p class="footer__line2" data-footer="line2"></p>
       <p class="footer__hash" data-hashtag></p>
-      <button class="btn btn--ghost" id="shareBtn">Share this invite</button>
+      <button class="btn btn--gold" id="shareBtn">Share this invite</button>
       <p class="footer__couple"><span class="script" data-name="1"></span> &amp; <span class="script" data-name="2"></span></p>
     </footer>
   </main>
