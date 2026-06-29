@@ -1,130 +1,143 @@
 /* =====================================================================
-   intro.js — cinematic opener:
-   red envelope opens → golden sunburst → swirling spiral galaxy → fade.
-   Plays once per browser session. Honors reduced-motion + Skip button.
+   intro.js — tap-to-reveal cinematic opener:
+   maroon seal ("Tap to Reveal") → golden sunburst → spiral galaxy → fade.
+   Built to NEVER get stuck: auto-triggers if untouched, always fades out,
+   survives any canvas error, plays once per session, has a Skip button.
    ===================================================================== */
 (function () {
   "use strict";
   const intro = document.getElementById("intro");
+  if (!intro) return;
   const canvas = document.getElementById("introCanvas");
-  const env = document.getElementById("introEnvelope");
+  const seal = document.getElementById("introSeal");
   const skip = document.getElementById("introSkip");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let finished = false, started = false;
 
-  function done() {
+  function finish() {
+    if (finished) return;
+    finished = true;
     intro.classList.add("is-hidden");
-    setTimeout(() => intro.remove(), 1100);
     document.body.style.overflow = "";
+    setTimeout(() => { if (intro.parentNode) intro.remove(); }, 1100);
     window.dispatchEvent(new Event("intro:done"));
   }
 
-  // Skip if already seen this session, or reduced motion.
+  // Skip entirely if already seen this session or reduced motion.
   if (reduce || sessionStorage.getItem("introSeen")) {
-    intro.remove();
+    if (intro.parentNode) intro.remove();
     document.body.style.overflow = "";
     window.dispatchEvent(new Event("intro:done"));
     return;
   }
   sessionStorage.setItem("introSeen", "1");
   document.body.style.overflow = "hidden";
-  skip.addEventListener("click", done);
 
-  /* ---------- Galaxy canvas ---------- */
-  const ctx = canvas.getContext("2d");
-  let dpr = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
-  function size() {
-    W = innerWidth; H = innerHeight;
-    canvas.width = W * dpr; canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  size(); addEventListener("resize", size);
+  // Hard safety net: no matter what, the intro is gone within 9s.
+  const hardStop = setTimeout(finish, 9000);
 
-  // Build spiral galaxy particles (logarithmic arms).
-  const N = 900, arms = 3, parts = [];
-  for (let i = 0; i < N; i++) {
-    const arm = i % arms;
-    const t = Math.pow(Math.random(), .5) * 5.4;            // radius growth
-    const ang = t * 0.9 + (arm / arms) * Math.PI * 2 + (Math.random() - .5) * .5;
-    const palette = ["#bfe3ff", "#8fb7ff", "#d9c08a", "#ffe9b0", "#a6e6e0"];
-    parts.push({
-      t, ang,
-      r: t * 34,
-      col: palette[(Math.random() * palette.length) | 0],
-      sz: Math.random() * 1.8 + .4,
-      tw: Math.random() * Math.PI * 2,
-    });
-  }
+  if (skip) skip.addEventListener("click", finish);
 
-  let phase = 0;        // 0 wait-envelope, 1 burst, 2 galaxy, 3 fade
-  let t0 = 0, rot = 0, sunR = 0, galAlpha = 0;
+  /* ---------- The reveal animation ---------- */
+  function run() {
+    if (started) return;
+    started = true;
 
-  function sunburst(cx, cy, R, alpha) {
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
-    g.addColorStop(0, "#fff7da"); g.addColorStop(.25, "#ffd86b");
-    g.addColorStop(.6, "rgba(201,162,75,.5)"); g.addColorStop(1, "rgba(201,162,75,0)");
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
-    // rays
-    ctx.translate(cx, cy); ctx.rotate(rot * .5);
-    ctx.strokeStyle = "rgba(255,228,150," + (alpha * .5) + ")"; ctx.lineWidth = 2;
-    for (let i = 0; i < 24; i++) {
-      const a = (i / 24) * Math.PI * 2;
-      ctx.beginPath(); ctx.moveTo(0, 0);
-      ctx.lineTo(Math.cos(a) * R * 1.3, Math.sin(a) * R * 1.3); ctx.stroke();
-    }
-    ctx.restore();
-  }
+    // try to start music on this user gesture (allowed); ignore if blocked
+    try {
+      const a = document.getElementById("bgAudio");
+      if (a && a.paused) {
+        a.play().then(() => {
+          const mb = document.getElementById("musicBtn");
+          if (mb) { mb.classList.add("is-playing"); mb.title = "Pause music"; }
+        }).catch(() => {});
+      }
+    } catch (_) {}
 
-  function galaxy(cx, cy, alpha) {
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.translate(cx, cy); ctx.rotate(rot);
-    // glowing core
-    const core = ctx.createRadialGradient(0, 0, 0, 0, 0, 70);
-    core.addColorStop(0, "#fff"); core.addColorStop(.4, "#ffe9b0"); core.addColorStop(1, "rgba(120,90,200,0)");
-    ctx.fillStyle = core; ctx.beginPath(); ctx.arc(0, 0, 70, 0, Math.PI * 2); ctx.fill();
-    for (const p of parts) {
-      p.tw += .08;
-      const x = Math.cos(p.ang) * p.r, y = Math.sin(p.ang) * p.r;
-      ctx.globalAlpha = alpha * (.5 + Math.sin(p.tw) * .35);
-      ctx.fillStyle = p.col;
-      ctx.beginPath(); ctx.arc(x, y, p.sz, 0, Math.PI * 2); ctx.fill();
-    }
-    ctx.restore();
-  }
+    intro.classList.add("is-bursting"); // seal scales up + fades
 
-  function frame(ts) {
-    if (!t0) t0 = ts;
-    const el = ts - t0;
-    rot += 0.01;
-    ctx.clearRect(0, 0, W, H);
-    const cx = W / 2, cy = H / 2;
+    let ok = true;
+    let ctx;
+    try { ctx = canvas.getContext("2d"); } catch (_) { ok = false; }
+    if (!ok || !ctx) { setTimeout(finish, 700); return; }
 
-    if (phase >= 2) {
-      // deep space bg
-      ctx.fillStyle = "#0a0820"; ctx.fillRect(0, 0, W, H);
+    let dpr = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
+    function size() { W = innerWidth; H = innerHeight; canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    size(); window.addEventListener("resize", size);
+
+    // spiral-galaxy particles
+    const parts = [];
+    const palette = ["#ffe9b0", "#ffd86b", "#f7b733", "#bfe3ff", "#9fc6ff", "#ffcf9e"];
+    for (let i = 0; i < 700; i++) {
+      const arm = i % 3;
+      const t = Math.pow(Math.random(), 0.5) * 5.2;
+      const ang = t * 0.95 + (arm / 3) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+      parts.push({ ang, r: t * 30, col: palette[(Math.random() * palette.length) | 0], sz: Math.random() * 1.8 + 0.5, tw: Math.random() * 6.28 });
     }
 
-    if (phase === 1) {            // sunburst growing out of the envelope glow
-      sunR = Math.min(sunR + W * 0.012, Math.hypot(W, H));
-      sunburst(cx, cy, sunR, 1);
-      if (sunR > Math.hypot(W, H) * 0.6) { phase = 2; }
-    } else if (phase === 2) {     // galaxy emerges, sunburst fades
-      galAlpha = Math.min(galAlpha + .015, 1);
-      galaxy(cx, cy, galAlpha);
-      sunburst(cx, cy, Math.hypot(W, H), Math.max(0, 1 - galAlpha));
-      if (galAlpha >= 1 && el > 0) { /* hold */ }
+    const start = performance.now();
+    let rot = 0;
+    const SUN_END = 1200, GAL_END = 2700, FADE_END = 3600;
+
+    function rays(cx, cy, R, a) {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+      g.addColorStop(0, "rgba(255,247,218," + a + ")");
+      g.addColorStop(0.25, "rgba(255,216,107," + a + ")");
+      g.addColorStop(0.6, "rgba(201,162,75," + (a * 0.5) + ")");
+      g.addColorStop(1, "rgba(201,162,75,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.2832); ctx.fill();
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot * 0.6);
+      ctx.strokeStyle = "rgba(255,228,150," + (a * 0.5) + ")"; ctx.lineWidth = 2;
+      for (let i = 0; i < 24; i++) { const an = (i / 24) * 6.2832; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(an) * R * 1.25, Math.sin(an) * R * 1.25); ctx.stroke(); }
+      ctx.restore();
+    }
+    function galaxy(cx, cy, a) {
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+      const core = ctx.createRadialGradient(0, 0, 0, 0, 0, 60);
+      core.addColorStop(0, "rgba(255,255,255," + a + ")"); core.addColorStop(0.4, "rgba(255,233,176," + a + ")"); core.addColorStop(1, "rgba(150,110,40,0)");
+      ctx.fillStyle = core; ctx.beginPath(); ctx.arc(0, 0, 60, 0, 6.2832); ctx.fill();
+      for (const p of parts) {
+        p.tw += 0.08;
+        const x = Math.cos(p.ang) * p.r, y = Math.sin(p.ang) * p.r;
+        ctx.globalAlpha = a * (0.5 + Math.sin(p.tw) * 0.35);
+        ctx.fillStyle = p.col; ctx.beginPath(); ctx.arc(x, y, p.sz, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.restore();
     }
 
-    if (phase < 3) requestAnimationFrame(frame);
+    function frame(now) {
+      if (finished) return;
+      const el = now - start;
+      rot += 0.012;
+      ctx.clearRect(0, 0, W, H);
+      const cx = W / 2, cy = H / 2, maxR = Math.hypot(W, H);
+
+      if (el < SUN_END) {
+        const k = el / SUN_END;                 // 0..1 sunburst grows
+        rays(cx, cy, maxR * (0.15 + k * 0.65), 1);
+      } else if (el < GAL_END) {
+        ctx.fillStyle = "#0b0922"; ctx.fillRect(0, 0, W, H);
+        const k = (el - SUN_END) / (GAL_END - SUN_END);
+        galaxy(cx, cy, Math.min(1, k * 1.4));
+        rays(cx, cy, maxR, Math.max(0, 1 - k * 1.6));
+      } else {
+        ctx.fillStyle = "#0b0922"; ctx.fillRect(0, 0, W, H);
+        galaxy(cx, cy, 1);
+        const k = (el - GAL_END) / (FADE_END - GAL_END);
+        intro.style.opacity = String(Math.max(0, 1 - k));
+      }
+
+      if (el >= FADE_END) { finish(); return; }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 
-  // Timeline
-  setTimeout(() => intro.classList.add("is-opening"), 500);   // envelope flap opens
-  setTimeout(() => {                                          // light bursts
-    intro.classList.add("is-burst");
-    phase = 1; t0 = 0; requestAnimationFrame(frame);
-  }, 1700);
-  setTimeout(done, 5200);                                     // galaxy holds ~1.5s then fade to page
+  // Trigger on tap/click anywhere on the intro, or auto after 4.5s.
+  seal && seal.addEventListener("click", run);
+  intro.addEventListener("click", (e) => { if (e.target !== skip) run(); });
+  const autoTrigger = setTimeout(run, 4500);
+
+  // tidy timers when done
+  window.addEventListener("intro:done", () => { clearTimeout(hardStop); clearTimeout(autoTrigger); });
 })();
