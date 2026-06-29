@@ -1,0 +1,10 @@
+# Netlify configuration for a plain static site (no build step).
+[build]
+  publish = "."
+  command = ""
+
+# Cache static assets but always revalidate the HTML so updates show immediately.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
