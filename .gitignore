@@ -1,0 +1,12 @@
+# Analysis artifacts (reference stills extracted from the sample video)
+frames/
+crop/
+zoom/
+
+# Source clips / large media not needed for the site
+*.mp4
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.log
