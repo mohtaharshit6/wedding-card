@@ -51,13 +51,13 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
         >
           For inquiries &amp; coordination
         </p>
-        <p
+        <div
           style={{
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '0.85rem',
-            flexWrap: 'wrap',
+            gap: '0.45rem',
             fontSize: '1.05rem',
             fontFamily: 'var(--font-sans)',
             fontWeight: 500,
@@ -76,7 +76,6 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
           >
             <span aria-hidden="true">📞</span> +91 93310 99998
           </a>
-          <span style={{ color: 'var(--gold-soft)', opacity: 0.5 }}>|</span>
           <a
             href="tel:+919903723712"
             style={{
@@ -89,7 +88,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
           >
             <span aria-hidden="true">📞</span> +91 99037 23712
           </a>
-        </p>
+        </div>
       </div>
 
       {wedding.hashtag && (
