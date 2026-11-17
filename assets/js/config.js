@@ -123,7 +123,7 @@ const WEDDING = {
   },
   footer: {
     line1: "Awaiting your presence and blessings",
-    line2: "Mohta & Daga Family",
+    line2: "Mohta Family",
   },
   music: {
     src: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0c6ff1bab.mp3?filename=relaxing-145038.mp3",

@@ -37,19 +37,19 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
       {wedding.footer_line1 && <p className="footer__line1">{wedding.footer_line1}</p>}
       {wedding.footer_line2 && <p className="footer__line2">{wedding.footer_line2}</p>}
 
-      <div className="footer__contact" style={{ margin: '1.2rem auto', opacity: 0.95 }}>
+      <div className="footer__contact" style={{ margin: '1.4rem auto 1rem', opacity: 0.95 }}>
         <p
           style={{
-            fontSize: '0.8rem',
+            fontSize: '0.85rem',
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
             color: 'var(--gold-soft)',
-            marginBottom: '0.35rem',
+            marginBottom: '0.6rem',
             fontFamily: 'var(--font-sans)',
-            fontWeight: 500,
+            fontWeight: 600,
           }}
         >
-          For inquiries &amp; coordination
+          Get in Touch
         </p>
         <div
           style={{
@@ -57,37 +57,125 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '0.45rem',
-            fontSize: '1.05rem',
+            gap: '0.65rem',
+            fontSize: '1rem',
             fontFamily: 'var(--font-sans)',
             fontWeight: 500,
-            letterSpacing: '0.03em',
           }}
         >
-          <a
-            href="tel:+919331099998"
+          {/* Contact 1 */}
+          <div
             style={{
-              color: '#ffffff',
-              textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.35rem',
+              gap: '0.45rem',
+              background: 'rgba(0, 0, 0, 0.18)',
+              padding: '0.35rem 0.75rem',
+              borderRadius: '24px',
+              border: '1px solid rgba(227, 199, 126, 0.25)',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
             }}
           >
-            <span aria-hidden="true">📞</span> +91 93310 99998
-          </a>
-          <a
-            href="tel:+919903723712"
+            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500 }}>
+              +91 93310 99998
+            </span>
+            <span style={{ opacity: 0.4, color: 'var(--gold-soft)' }}>•</span>
+            <a
+              href="tel:+919331099998"
+              style={{
+                color: '#ffffff',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.2rem',
+                fontSize: '0.82rem',
+                padding: '0.2rem 0.45rem',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.12)',
+              }}
+              title="Call"
+            >
+              <span aria-hidden="true">📞</span> Call
+            </a>
+            <a
+              href="https://wa.me/919331099998"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#25D366',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.2rem',
+                fontSize: '0.82rem',
+                padding: '0.2rem 0.55rem',
+                borderRadius: '12px',
+                background: 'rgba(37, 211, 102, 0.16)',
+                fontWeight: 500,
+              }}
+              title="WhatsApp"
+            >
+              <span aria-hidden="true">💬</span> WhatsApp
+            </a>
+          </div>
+
+          {/* Contact 2 */}
+          <div
             style={{
-              color: '#ffffff',
-              textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.35rem',
+              gap: '0.45rem',
+              background: 'rgba(0, 0, 0, 0.18)',
+              padding: '0.35rem 0.75rem',
+              borderRadius: '24px',
+              border: '1px solid rgba(227, 199, 126, 0.25)',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
             }}
           >
-            <span aria-hidden="true">📞</span> +91 99037 23712
-          </a>
+            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500 }}>
+              +91 99037 23712
+            </span>
+            <span style={{ opacity: 0.4, color: 'var(--gold-soft)' }}>•</span>
+            <a
+              href="tel:+919903723712"
+              style={{
+                color: '#ffffff',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.2rem',
+                fontSize: '0.82rem',
+                padding: '0.2rem 0.45rem',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.12)',
+              }}
+              title="Call"
+            >
+              <span aria-hidden="true">📞</span> Call
+            </a>
+            <a
+              href="https://wa.me/919903723712"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#25D366',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.2rem',
+                fontSize: '0.82rem',
+                padding: '0.2rem 0.55rem',
+                borderRadius: '12px',
+                background: 'rgba(37, 211, 102, 0.16)',
+                fontWeight: 500,
+              }}
+              title="WhatsApp"
+            >
+              <span aria-hidden="true">💬</span> WhatsApp
+            </a>
+          </div>
         </div>
       </div>
 
