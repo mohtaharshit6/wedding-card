@@ -18,12 +18,25 @@
   <!-- ===================== CINEMATIC INTRO ===================== -->
   <div class="intro" id="intro">
     <canvas class="intro__canvas" id="introCanvas"></canvas>
-    <button class="intro__seal" id="introSeal" aria-label="Tap to reveal the invitation">
-      <span class="seal__ring"></span>
-      <span class="seal__core"><img src="assets/img/ganesha.png" alt="" /></span>
-      <span class="seal__label">Tap to Reveal</span>
-    </button>
+    <div class="intro__seal" id="introSealWrap">
+      <div class="intro__seal-btn" id="introSeal" role="button" tabindex="0" aria-label="Tap to reveal the invitation" style="cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+        <span class="seal__ring"></span>
+        <span class="seal__core"><img src="assets/img/ganesha.png" alt="Shri Ganesh Ji" /></span>
+      </div>
+      <span class="seal__label" style="letter-spacing: 0.18em; margin: 0.2rem 0 0.4rem;">TAP TO REVEAL · भाषा चुनें</span>
+      <div class="seal__langs">
+        <button type="button" class="seal__lang-btn" data-lang="en">✨ English</button>
+        <button type="button" class="seal__lang-btn" data-lang="hi">🕉️ हिंदी</button>
+      </div>
+    </div>
     <button class="intro__skip" id="introSkip">Skip ›</button>
+  </div>
+
+  <!-- Floating Language Switcher -->
+  <div class="floating-lang-toggle" id="langToggle">
+    <button type="button" class="lang-btn is-active" data-lang-btn="en">EN</button>
+    <span class="lang-sep">|</span>
+    <button type="button" class="lang-btn" data-lang-btn="hi">हिंदी</button>
   </div>
 
   <main class="page" id="page">

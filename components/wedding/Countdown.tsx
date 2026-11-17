@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { Wedding } from '@/lib/types/wedding';
+import { Translations } from '@/lib/i18n/translations';
 
 interface CountdownProps {
   wedding: Wedding;
+  t: Translations;
 }
 
-export default function Countdown({ wedding }: CountdownProps) {
+export default function Countdown({ wedding, t }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: '00',
@@ -67,26 +69,26 @@ export default function Countdown({ wedding }: CountdownProps) {
 
   return (
     <section className="section countdown" id="countdown">
-      <h2 className="display reveal is-visible">Counting Down</h2>
+      <h2 className="display reveal is-visible">{t.countdownTitle}</h2>
       <div className="countdown__grid reveal is-visible">
         <div className="cd-unit">
           <span>{timeLeft.days}</span>
-          <small>Days</small>
+          <small>{t.countdownDays}</small>
         </div>
         <div className="cd-sep">:</div>
         <div className="cd-unit">
           <span>{timeLeft.hours}</span>
-          <small>Hours</small>
+          <small>{t.countdownHours}</small>
         </div>
         <div className="cd-sep">:</div>
         <div className="cd-unit">
           <span>{timeLeft.minutes}</span>
-          <small>Minutes</small>
+          <small>{t.countdownMinutes}</small>
         </div>
         <div className="cd-sep">:</div>
         <div className="cd-unit">
           <span>{timeLeft.seconds}</span>
-          <small>Seconds</small>
+          <small>{t.countdownSeconds}</small>
         </div>
       </div>
       <button
@@ -95,7 +97,7 @@ export default function Countdown({ wedding }: CountdownProps) {
         id="calBtn"
         onClick={handleAddToCalendar}
       >
-        ＋ Add to Calendar
+        {t.calendarBtn}
       </button>
     </section>
   );

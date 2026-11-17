@@ -194,7 +194,133 @@
   /* ---------- Share ---------- */
   $("#shareBtn").addEventListener("click", async () => {
     const data = { title: W.couple.name1 + " & " + W.couple.name2, text: "You're invited! " + W.couple.hashtag, url: location.href };
+    const t = W.i18n && W.i18n[currentLang] ? W.i18n[currentLang] : null;
+    const copiedText = t ? t.copiedNotice : "Link copied! ✓";
     if (navigator.share) { try { await navigator.share(data); } catch (_) {} }
-    else { try { await navigator.clipboard.writeText(location.href); const b = $("#shareBtn"), t = b.textContent; b.textContent = "Link copied!"; setTimeout(() => b.textContent = t, 1800); } catch (_) { prompt("Copy link:", location.href); } }
+    else { try { await navigator.clipboard.writeText(location.href); const b = $("#shareBtn"), origText = b.textContent; b.textContent = copiedText; setTimeout(() => b.textContent = origText, 1800); } catch (_) { prompt("Copy link:", location.href); } }
   });
+
+  /* ---------- Bilingual Support (English / Hindi) ---------- */
+  let currentLang = window.SELECTED_LANG || 'en';
+
+  function applyLanguage(lang) {
+    if (!lang) lang = 'en';
+    currentLang = lang;
+    window.SELECTED_LANG = lang;
+    const t = W.i18n && W.i18n[lang] ? W.i18n[lang] : (W.i18n ? W.i18n['en'] : null);
+    if (!t) return;
+
+    // Toggle button active state
+    $$('[data-lang-btn]').forEach(b => {
+      b.classList.toggle('is-active', b.getAttribute('data-lang-btn') === lang);
+    });
+
+    // Hero
+    const blessingEl = $('[data-shloka="blessing"]');
+    if (blessingEl) blessingEl.textContent = t.blessing;
+    const p1 = $('[data-parents="1"]');
+    if (p1) p1.textContent = t.parents1;
+    const p2 = $('[data-parents="2"]');
+    if (p2) p2.textContent = t.parents2;
+    const scrollCue = $('.scroll-cue');
+    if (scrollCue) scrollCue.innerHTML = t.scrollCue.replace('↓', '<span>↓</span>');
+
+    // Save the Date
+    const sKicker = $('.savedate .kicker');
+    if (sKicker) sKicker.textContent = t.saveDateKicker;
+    const sTitle = $('.savedate .display');
+    if (sTitle) sTitle.textContent = t.saveDateTitle;
+    const sHint = $('.savedate__hint');
+    if (sHint) sHint.textContent = t.saveDateHint;
+
+    const labels = $$('.scratch__tiles .tile__label');
+    if (labels[0]) labels[0].textContent = t.saveDateMonthLabel;
+    if (labels[1]) labels[1].textContent = t.saveDateDayLabel;
+    if (labels[2]) labels[2].textContent = t.saveDateYearLabel;
+
+    const mVal = $('[data-date="month"]');
+    if (mVal) mVal.textContent = t.saveDateMonth;
+    const dVal = $('[data-date="day"]');
+    if (dVal) dVal.textContent = t.saveDateDay;
+    const yVal = $('[data-date="year"]');
+    if (yVal) yVal.textContent = t.saveDateYear;
+
+    const sDone = $('#scratchDone');
+    if (sDone) sDone.textContent = t.saveDateDone;
+
+    // Countdown
+    const cdTitle = $('.countdown .display');
+    if (cdTitle) cdTitle.textContent = t.countdownTitle;
+    const cdSmalls = $$('.countdown__grid .cd-unit small');
+    if (cdSmalls[0]) cdSmalls[0].textContent = t.countdownDays;
+    if (cdSmalls[1]) cdSmalls[1].textContent = t.countdownHours;
+    if (cdSmalls[2]) cdSmalls[2].textContent = t.countdownMinutes;
+    if (cdSmalls[3]) cdSmalls[3].textContent = t.countdownSeconds;
+    const calBtn = $('#calBtn');
+    if (calBtn) calBtn.textContent = t.calendarBtn;
+
+    // Forever Us
+    const foTitle = $('.forever .display');
+    if (foTitle) foTitle.textContent = t.foreverTitle;
+    const foSub = $('.forever .section__sub');
+    if (foSub) foSub.textContent = t.foreverSub;
+    const figcaps = $$('#galleryTrack figcaption');
+    figcaps.forEach((fc, idx) => {
+      if (t.galleryCaptions[idx]) fc.textContent = t.galleryCaptions[idx];
+    });
+
+    // Events
+    const evTitle = $('.events .display');
+    if (evTitle) evTitle.textContent = t.eventsTitle;
+    const evSub = $('.events .section__sub');
+    if (evSub) evSub.textContent = t.eventsSub;
+
+    $("#eventsList").innerHTML = t.events.map((e, idx) => {
+      const orig = W.events[idx] || {};
+      return `
+      <article class="event reveal is-visible">
+        <img class="event__img" src="${orig.image || ''}" alt="${e.name}" loading="lazy" />
+        <div class="event__body">
+          <h3 class="event__name">${e.name}</h3>
+          <p class="event__when">${e.day ? e.day + ' · ' : ''}${e.date} · ${e.time}</p>
+          <p class="event__desc">“${e.description}”</p>
+          <p class="event__venue">${e.venue}</p>
+          <p style="margin-top:1rem"><a class="btn event__dir" href="${orig.mapsLink || ''}" target="_blank" rel="noopener">📍 ${e.getDirections || 'Get Directions'}</a></p>
+        </div>
+      </article>`;
+    }).join("");
+
+    // Footer
+    const f1 = $('[data-footer="line1"]');
+    if (f1) f1.textContent = t.footerLine1;
+    const f2 = $('[data-footer="line2"]');
+    if (f2) f2.textContent = t.footerLine2;
+    const contactHeading = $('.footer__contact p');
+    if (contactHeading) contactHeading.textContent = t.getInTouch;
+    const callBtns = $$('a[href^="tel:"]');
+    callBtns.forEach(cb => { cb.innerHTML = '<span aria-hidden="true">📞</span> ' + t.callLabel; });
+    const waBtns = $$('a[href^="https://wa.me"]');
+    waBtns.forEach(wb => { wb.innerHTML = '<span aria-hidden="true">💬</span> ' + t.whatsappLabel; });
+    const shareBtn = $('#shareBtn');
+    if (shareBtn) shareBtn.textContent = t.shareBtn;
+  }
+
+  window.setWeddingLanguage = applyLanguage;
+
+  $$('[data-lang-btn]').forEach(b => {
+    b.addEventListener('click', () => {
+      applyLanguage(b.getAttribute('data-lang-btn'));
+    });
+  });
+
+  window.addEventListener("intro:done", (e) => {
+    if (e.detail && e.detail.lang) {
+      applyLanguage(e.detail.lang);
+    }
+  });
+
+  // Initial apply if language already selected or default
+  if (window.SELECTED_LANG) {
+    applyLanguage(window.SELECTED_LANG);
+  }
 })();

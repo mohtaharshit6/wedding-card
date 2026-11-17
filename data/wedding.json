@@ -77,28 +77,9 @@
       "maps_link": "https://www.google.com/maps/search/?api=1&query=Geetanjali+Regency+VIP+Road+Tegharia+Kolkata+700052"
     },
     {
-      "id": "e3",
-      "wedding_id": "madhav-ritika-wedding",
-      "sort_order": 3,
-      "name": "Sangeet Night",
-      "day": "Sunday",
-      "date": "24 Jan 2027",
-      "time": "7:00 PM",
-      "image_url": "/assets/img/sangeet.jpg",
-      "description": "An electrifying evening of music, dance, and endless celebration.",
-      "dress_code_label": "Pastel Pink · Peach · Mint · Comfortable & breezy",
-      "dress_code_colors": [
-        "#F6C6D0",
-        "#F2C9A0",
-        "#A8D5BA"
-      ],
-      "venue": "Divinity Pavillion Banquet Hall · Lake Town, Kolkata",
-      "maps_link": "https://www.google.com/maps/search/?api=1&query=Divinity+Pavillion+Banquet+Hall+Golaghata+Road+Lake+Town+Kolkata+700048"
-    },
-    {
       "id": "e4",
       "wedding_id": "madhav-ritika-wedding",
-      "sort_order": 4,
+      "sort_order": 3,
       "name": "Phere",
       "day": "Monday",
       "date": "25 Jan 2027",

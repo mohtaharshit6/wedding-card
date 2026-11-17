@@ -1,11 +1,13 @@
 import React from 'react';
 import { Wedding } from '@/lib/types/wedding';
+import { Translations } from '@/lib/i18n/translations';
 
 interface HeroSectionProps {
   wedding: Wedding;
+  t: Translations;
 }
 
-export default function HeroSection({ wedding }: HeroSectionProps) {
+export default function HeroSection({ wedding, t }: HeroSectionProps) {
   return (
     <section className="hero" id="hero">
       <div className="paper">
@@ -65,8 +67,8 @@ export default function HeroSection({ wedding }: HeroSectionProps) {
           </>
         )}
 
-        {wedding.blessing_text && (
-          <p className="hero__blessing reveal is-visible">{wedding.blessing_text}</p>
+        {t.blessingText && (
+          <p className="hero__blessing reveal is-visible">{t.blessingText}</p>
         )}
 
         <h1 className="hero__names reveal is-visible">
@@ -75,15 +77,15 @@ export default function HeroSection({ wedding }: HeroSectionProps) {
           <span className="script">{wedding.couple_name2}</span>
         </h1>
 
-        {wedding.parents1 && (
-          <p className="hero__parents reveal is-visible">{wedding.parents1}</p>
+        {t.parents1 && (
+          <p className="hero__parents reveal is-visible">{t.parents1}</p>
         )}
-        {wedding.parents2 && (
-          <p className="hero__parents reveal is-visible">{wedding.parents2}</p>
+        {t.parents2 && (
+          <p className="hero__parents reveal is-visible">{t.parents2}</p>
         )}
 
         <a href="#savedate" className="scroll-cue reveal is-visible">
-          SCROLL FOR MORE INFO <span>↓</span>
+          {t.scrollCue}
         </a>
       </div>
     </section>

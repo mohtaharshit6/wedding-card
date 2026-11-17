@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { WeddingFullData } from '@/lib/types/wedding';
+import { Language, TRANSLATIONS } from '@/lib/i18n/translations';
 import IntroSeal from './IntroSeal';
 import HeroSection from './HeroSection';
 import ScratchCard from './ScratchCard';
@@ -18,6 +19,9 @@ interface WeddingPageClientProps {
 export default function WeddingPageClient({ data }: WeddingPageClientProps) {
   const { wedding, theme, events, gallery, rsvpConfig } = data;
   const [introDone, setIntroDone] = useState(false);
+  const [lang, setLang] = useState<Language>('en');
+
+  const t = TRANSLATIONS[lang];
 
   // Dynamic Theme Palette CSS Variables
   const themeStyles = `
@@ -83,16 +87,75 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
         emblemType={wedding.emblem_type}
         emblemUrl={wedding.emblem_url}
         monogram={wedding.monogram}
-        onDone={() => setIntroDone(true)}
+        onDone={(chosenLang) => {
+          if (chosenLang) setLang(chosenLang);
+          setIntroDone(true);
+        }}
       />
 
+      {/* Floating Language Switcher */}
+      <div
+        className="floating-lang-toggle"
+        style={{
+          position: 'fixed',
+          top: '16px',
+          right: '16px',
+          zIndex: 50,
+          background: 'rgba(110, 20, 20, 0.88)',
+          backdropFilter: 'blur(10px)',
+          border: '1.2px solid var(--gold)',
+          borderRadius: '999px',
+          padding: '3px 5px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '2px',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setLang('en')}
+          style={{
+            background: lang === 'en' ? 'var(--gold)' : 'transparent',
+            color: lang === 'en' ? '#3A2A22' : 'var(--gold-soft)',
+            border: 'none',
+            borderRadius: '999px',
+            padding: '3px 9px',
+            fontSize: '0.76rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          EN
+        </button>
+        <span style={{ color: 'var(--gold-soft)', opacity: 0.4, fontSize: '0.72rem' }}>|</span>
+        <button
+          type="button"
+          onClick={() => setLang('hi')}
+          style={{
+            background: lang === 'hi' ? 'var(--gold)' : 'transparent',
+            color: lang === 'hi' ? '#3A2A22' : 'var(--gold-soft)',
+            border: 'none',
+            borderRadius: '999px',
+            padding: '3px 9px',
+            fontSize: '0.8rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          हिंदी
+        </button>
+      </div>
+
       <main className="page" id="page">
-        <HeroSection wedding={wedding} />
-        <ScratchCard weddingDateTime={wedding.wedding_date_time} />
-        <Countdown wedding={wedding} />
-        <PolaroidCarousel gallery={gallery} />
-        <EventsSection events={events} />
-        <FooterSection wedding={wedding} />
+        <HeroSection wedding={wedding} t={t} />
+        <ScratchCard weddingDateTime={wedding.wedding_date_time} t={t} lang={lang} />
+        <Countdown wedding={wedding} t={t} />
+        <PolaroidCarousel gallery={gallery} t={t} />
+        <EventsSection events={events} t={t} />
+        <FooterSection wedding={wedding} t={t} />
       </main>
     </>
   );

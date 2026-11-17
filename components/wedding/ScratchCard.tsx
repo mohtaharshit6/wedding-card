@@ -3,25 +3,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { triggerConfettiBurst } from '@/lib/utils/confetti';
 import PetalsCanvas from './PetalsCanvas';
+import { Translations, Language } from '@/lib/i18n/translations';
 
 interface ScratchCardProps {
   weddingDateTime: string;
+  t: Translations;
+  lang: Language;
 }
 
-export default function ScratchCard({ weddingDateTime }: ScratchCardProps) {
+export default function ScratchCard({ weddingDateTime, t, lang }: ScratchCardProps) {
   const [cleared, setCleared] = useState(false);
   const [showPetals, setShowPetals] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const dateObj = new Date(weddingDateTime);
-  const monthNames = [
-    'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
-    'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
-  ];
-  const month = monthNames[dateObj.getMonth()] || 'JAN';
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  const year = String(dateObj.getFullYear());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -80,7 +74,7 @@ export default function ScratchCard({ weddingDateTime }: ScratchCardProps) {
       ctx.fillStyle = 'rgba(110,20,20,.85)';
       ctx.font = "600 16px 'Inter', sans-serif";
       ctx.textAlign = 'center';
-      ctx.fillText('✦ scratch here ✦', r.width / 2, r.height / 2 + 5);
+      ctx.fillText(lang === 'hi' ? '✦ यहाँ स्क्रैच करें ✦' : '✦ scratch here ✦', r.width / 2, r.height / 2 + 5);
       ctx.globalCompositeOperation = 'destination-out';
     }
 
@@ -165,28 +159,28 @@ export default function ScratchCard({ weddingDateTime }: ScratchCardProps) {
       canvas.removeEventListener('touchmove', move as any);
       window.removeEventListener('touchend', end);
     };
-  }, []);
+  }, [lang]);
 
   return (
     <section className="section savedate" id="savedate" ref={containerRef} style={{ position: 'relative' }}>
       {showPetals && <PetalsCanvas count={24} />}
-      <p className="kicker reveal is-visible">THE DATE</p>
-      <h2 className="display reveal is-visible">Save the Date</h2>
-      <p className="savedate__hint reveal is-visible">Scratch below to reveal our wedding date</p>
+      <p className="kicker reveal is-visible">{t.saveDateKicker}</p>
+      <h2 className="display reveal is-visible">{t.saveDateTitle}</h2>
+      <p className="savedate__hint reveal is-visible">{t.saveDateHint}</p>
 
       <div className="scratch reveal is-visible" id="scratchWrap">
         <div className="scratch__tiles">
           <div className="tile">
-            <span className="tile__label">Month</span>
-            <span className="tile__val">{month}</span>
+            <span className="tile__label">{lang === 'hi' ? 'माह' : 'Month'}</span>
+            <span className="tile__val">{t.saveDateMonth}</span>
           </div>
           <div className="tile">
-            <span className="tile__label">Day</span>
-            <span className="tile__val">{day}</span>
+            <span className="tile__label">{lang === 'hi' ? 'दिनांक' : 'Day'}</span>
+            <span className="tile__val">{t.saveDateDay}</span>
           </div>
           <div className="tile">
-            <span className="tile__label">Year</span>
-            <span className="tile__val">{year}</span>
+            <span className="tile__label">{lang === 'hi' ? 'वर्ष' : 'Year'}</span>
+            <span className="tile__val">{t.saveDateYear}</span>
           </div>
         </div>
         <canvas
@@ -194,7 +188,7 @@ export default function ScratchCard({ weddingDateTime }: ScratchCardProps) {
           className={`scratch__canvas ${cleared ? 'is-cleared' : ''}`}
         />
       </div>
-      <p className={`savedate__revealed ${cleared ? 'show' : ''}`}>✨ See you there! ✨</p>
+      <p className={`savedate__revealed ${cleared ? 'show' : ''}`}>{t.saveDateDone}</p>
     </section>
   );
 }

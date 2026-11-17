@@ -3,12 +3,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { EmblemType } from '@/lib/types/wedding';
+import { Language } from '@/lib/i18n/translations';
 
 interface IntroSealProps {
   emblemType: EmblemType;
   emblemUrl?: string | null;
   monogram?: string | null;
-  onDone: () => void;
+  onDone: (lang: Language) => void;
 }
 
 export default function IntroSeal({
@@ -22,13 +23,14 @@ export default function IntroSeal({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const finishedRef = useRef(false);
   const startedRef = useRef(false);
+  const chosenLangRef = useRef<Language>('en');
 
-  const finish = () => {
+  const finish = (lang?: Language) => {
     if (finishedRef.current) return;
     finishedRef.current = true;
     document.body.style.overflow = '';
     setVisible(false);
-    onDone();
+    onDone(lang || chosenLangRef.current);
   };
 
   useEffect(() => {
@@ -56,21 +58,22 @@ export default function IntroSeal({
     };
   }, []);
 
-  const runAnimation = () => {
+  const runAnimation = (lang?: Language) => {
     if (startedRef.current) return;
     startedRef.current = true;
+    if (lang) chosenLangRef.current = lang;
 
     setBursting(true);
 
     const canvas = canvasRef.current;
     if (!canvas) {
-      setTimeout(finish, 700);
+      setTimeout(() => finish(chosenLangRef.current), 700);
       return;
     }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
-      setTimeout(finish, 700);
+      setTimeout(() => finish(chosenLangRef.current), 700);
       return;
     }
 
@@ -215,32 +218,89 @@ export default function IntroSeal({
       }}
     >
       <canvas ref={canvasRef} className="intro__canvas" />
-      <button
-        type="button"
-        className="intro__seal"
-        aria-label="Tap to reveal the invitation"
-        onClick={runAnimation}
-      >
-        <span className="seal__ring" />
-        <span className="seal__core">
-          {emblemType === 'ganesha' && (
-            <img src="/assets/img/ganesha.png" alt="Shri Ganesh Ji" width={72} height={72} />
-          )}
-          {emblemType === 'custom' && emblemUrl && (
-            <img src={emblemUrl} alt="Emblem" width={72} height={72} style={{ objectFit: 'contain' }} />
-          )}
-          {emblemType === 'monogram' && (
-            <span style={{ fontFamily: 'var(--font-script)', fontSize: '2.2rem', color: 'var(--maroon)' }}>
-              {monogram || 'W'}
-            </span>
-          )}
-          {emblemType === 'none' && (
-            <span style={{ fontSize: '1.8rem', color: 'var(--gold)' }}>✦</span>
-          )}
+      <div className="intro__seal" style={{ pointerEvents: bursting ? 'none' : 'auto' }}>
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Tap to reveal the invitation"
+          onClick={() => runAnimation('en')}
+          style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <span className="seal__ring" />
+          <span className="seal__core">
+            {emblemType === 'ganesha' && (
+              <img src="/assets/img/ganesha.png" alt="Shri Ganesh Ji" width={72} height={72} />
+            )}
+            {emblemType === 'custom' && emblemUrl && (
+              <img src={emblemUrl} alt="Emblem" width={72} height={72} style={{ objectFit: 'contain' }} />
+            )}
+            {emblemType === 'monogram' && (
+              <span style={{ fontFamily: 'var(--font-script)', fontSize: '2.2rem', color: 'var(--maroon)' }}>
+                {monogram || 'W'}
+              </span>
+            )}
+            {emblemType === 'none' && (
+              <span style={{ fontSize: '1.8rem', color: 'var(--gold)' }}>✦</span>
+            )}
+          </span>
+        </div>
+
+        <span className="seal__label" style={{ letterSpacing: '0.18em', margin: '0.2rem 0 0.4rem' }}>
+          TAP TO REVEAL · भाषा चुनें
         </span>
-        <span className="seal__label">Tap to Reveal</span>
-      </button>
-      <button type="button" className="intro__skip" id="introSkip" onClick={finish}>
+
+        {/* Dual Language Selection Buttons */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            zIndex: 10,
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={() => runAnimation('en')}
+            style={{
+              background: 'linear-gradient(135deg, rgba(201,162,75,0.25), rgba(20,12,12,0.7))',
+              border: '1.5px solid #C9A24B',
+              color: '#ffe9b0',
+              padding: '8px 18px',
+              borderRadius: '999px',
+              fontSize: '0.88rem',
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              cursor: 'pointer',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+              transition: 'transform 0.2s ease, background 0.2s ease',
+            }}
+          >
+            ✨ English
+          </button>
+          <button
+            type="button"
+            onClick={() => runAnimation('hi')}
+            style={{
+              background: 'linear-gradient(135deg, rgba(201,162,75,0.25), rgba(20,12,12,0.7))',
+              border: '1.5px solid #C9A24B',
+              color: '#ffe9b0',
+              padding: '8px 20px',
+              borderRadius: '999px',
+              fontSize: '0.92rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+              transition: 'transform 0.2s ease, background 0.2s ease',
+            }}
+          >
+            🕉️ हिंदी
+          </button>
+        </div>
+      </div>
+      <button type="button" className="intro__skip" id="introSkip" onClick={() => finish()}>
         Skip ›
       </button>
     </div>

@@ -2,12 +2,14 @@
 
 import React, { useState } from 'react';
 import { Wedding } from '@/lib/types/wedding';
+import { Translations } from '@/lib/i18n/translations';
 
 interface FooterSectionProps {
   wedding: Wedding;
+  t: Translations;
 }
 
-export default function FooterSection({ wedding }: FooterSectionProps) {
+export default function FooterSection({ wedding, t }: FooterSectionProps) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -34,8 +36,8 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
 
   return (
     <footer className="footer">
-      {wedding.footer_line1 && <p className="footer__line1">{wedding.footer_line1}</p>}
-      {wedding.footer_line2 && <p className="footer__line2">{wedding.footer_line2}</p>}
+      {t.footerLine1 && <p className="footer__line1">{t.footerLine1}</p>}
+      {t.footerLine2 && <p className="footer__line2">{t.footerLine2}</p>}
 
       <div className="footer__contact" style={{ margin: '1.4rem auto 1rem', opacity: 0.95 }}>
         <p
@@ -49,7 +51,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
             fontWeight: 600,
           }}
         >
-          Get in Touch
+          {t.getInTouch}
         </p>
         <div
           style={{
@@ -93,7 +95,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
               }}
               title="Call"
             >
-              <span aria-hidden="true">📞</span> Call
+              <span aria-hidden="true">📞</span> {t.callLabel}
             </a>
             <a
               href="https://wa.me/919331099998"
@@ -114,7 +116,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
               }}
               title="WhatsApp"
             >
-              <span aria-hidden="true">💬</span> WhatsApp
+              <span aria-hidden="true">💬</span> {t.whatsappLabel}
             </a>
           </div>
 
@@ -148,7 +150,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
               }}
               title="Call"
             >
-              <span aria-hidden="true">📞</span> Call
+              <span aria-hidden="true">📞</span> {t.callLabel}
             </a>
             <a
               href="https://wa.me/919903723712"
@@ -169,7 +171,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
               }}
               title="WhatsApp"
             >
-              <span aria-hidden="true">💬</span> WhatsApp
+              <span aria-hidden="true">💬</span> {t.whatsappLabel}
             </a>
           </div>
         </div>
@@ -192,7 +194,7 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
       )}
 
       <button type="button" className="btn btn--gold" id="shareBtn" onClick={handleShare}>
-        {copied ? 'Link copied! ✓' : 'Share this invite'}
+        {copied ? t.copiedNotice : t.shareBtn}
       </button>
 
       <p className="footer__couple">

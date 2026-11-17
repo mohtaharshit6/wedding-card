@@ -2,12 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryPhoto } from '@/lib/types/wedding';
+import { Translations } from '@/lib/i18n/translations';
 
 interface PolaroidCarouselProps {
   gallery: GalleryPhoto[];
+  t: Translations;
 }
 
-export default function PolaroidCarousel({ gallery }: PolaroidCarouselProps) {
+export default function PolaroidCarousel({ gallery, t }: PolaroidCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -129,8 +131,8 @@ export default function PolaroidCarousel({ gallery }: PolaroidCarouselProps) {
 
   return (
     <section className="section forever" id="forever">
-      <h2 className="display script-display reveal is-visible">Forever Us</h2>
-      <p className="section__sub reveal is-visible">A few of our favourite moments</p>
+      <h2 className="display script-display reveal is-visible">{t.foreverTitle}</h2>
+      <p className="section__sub reveal is-visible">{t.foreverSub}</p>
 
       <div className="vcarousel reveal is-visible" id="galleryCarousel">
         <div
@@ -145,8 +147,8 @@ export default function PolaroidCarousel({ gallery }: PolaroidCarouselProps) {
                 className={`polaroid ${item.is_bw ? 'bw' : ''}`}
                 onClick={() => openLightbox(idx)}
               >
-                <img src={item.image_url} alt={item.caption || 'Photo'} loading="lazy" />
-                {item.caption && <figcaption>{item.caption}</figcaption>}
+                <img src={item.image_url} alt={t.galleryCaptions[idx] || item.caption || 'Photo'} loading="lazy" />
+                <figcaption>{t.galleryCaptions[idx] || item.caption || ''}</figcaption>
               </figure>
             </div>
           ))}

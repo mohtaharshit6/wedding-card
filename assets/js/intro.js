@@ -13,35 +13,46 @@
   const skip = document.getElementById("introSkip");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let finished = false, started = false;
+  let chosenLang = "en";
 
-  function finish() {
+  function finish(lang) {
     if (finished) return;
     finished = true;
+    if (lang) chosenLang = lang;
+    window.SELECTED_LANG = chosenLang;
+    if (typeof window.setWeddingLanguage === "function") {
+      window.setWeddingLanguage(chosenLang);
+    }
     intro.classList.add("is-hidden");
     document.body.style.overflow = "";
     setTimeout(() => { if (intro.parentNode) intro.remove(); }, 1100);
-    window.dispatchEvent(new Event("intro:done"));
+    window.dispatchEvent(new CustomEvent("intro:done", { detail: { lang: chosenLang } }));
   }
 
   // Skip entirely if already seen this session or reduced motion.
   if (reduce || sessionStorage.getItem("introSeen")) {
     if (intro.parentNode) intro.remove();
     document.body.style.overflow = "";
-    window.dispatchEvent(new Event("intro:done"));
+    window.dispatchEvent(new CustomEvent("intro:done", { detail: { lang: chosenLang } }));
     return;
   }
   sessionStorage.setItem("introSeen", "1");
   document.body.style.overflow = "hidden";
 
   // Hard safety net: no matter what, the intro is gone within 9s.
-  const hardStop = setTimeout(finish, 9000);
+  const hardStop = setTimeout(() => finish(chosenLang), 9000);
 
-  if (skip) skip.addEventListener("click", finish);
+  if (skip) skip.addEventListener("click", () => finish(chosenLang));
 
   /* ---------- The reveal animation ---------- */
-  function run() {
+  function run(lang) {
     if (started) return;
     started = true;
+    if (lang) chosenLang = lang;
+    window.SELECTED_LANG = chosenLang;
+    if (typeof window.setWeddingLanguage === "function") {
+      window.setWeddingLanguage(chosenLang);
+    }
 
     // try to start music on this user gesture (allowed); ignore if blocked
     try {
@@ -133,10 +144,26 @@
     requestAnimationFrame(frame);
   }
 
-  // Trigger on tap/click anywhere on the intro, or auto after 4.5s.
-  seal && seal.addEventListener("click", run);
-  intro.addEventListener("click", (e) => { if (e.target !== skip) run(); });
-  const autoTrigger = setTimeout(run, 4500);
+  // Trigger on tap/click on language buttons or seal
+  const langBtns = intro.querySelectorAll(".seal__lang-btn");
+  langBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const l = btn.getAttribute("data-lang") || "en";
+      run(l);
+    });
+  });
+
+  seal && seal.addEventListener("click", (e) => {
+    e.stopPropagation();
+    run("en");
+  });
+
+  intro.addEventListener("click", (e) => {
+    if (e.target !== skip && !e.target.closest(".seal__lang-btn")) run("en");
+  });
+
+  const autoTrigger = setTimeout(() => run("en"), 4500);
 
   // tidy timers when done
   window.addEventListener("intro:done", () => { clearTimeout(hardStop); clearTimeout(autoTrigger); });
