@@ -77,12 +77,27 @@ export default function HeroSection({ wedding, t }: HeroSectionProps) {
           <span className="script">{wedding.couple_name2}</span>
         </h1>
 
-        {t.parents1 && (
-          <p className="hero__parents reveal is-visible">{t.parents1}</p>
-        )}
-        {t.parents2 && (
-          <p className="hero__parents reveal is-visible">{t.parents2}</p>
-        )}
+        <div className="hero__family reveal is-visible">
+          <div className="hero__family-side">
+            {t.grandparents1 && (
+              <p className="hero__grandparents">{t.grandparents1}</p>
+            )}
+            {t.parents1 && (
+              <p className="hero__parents">{t.parents1}</p>
+            )}
+          </div>
+
+          <div className="hero__family-divider">✦</div>
+
+          <div className="hero__family-side">
+            {t.grandparents2 && (
+              <p className="hero__grandparents">{t.grandparents2}</p>
+            )}
+            {t.parents2 && (
+              <p className="hero__parents">{t.parents2}</p>
+            )}
+          </div>
+        </div>
 
         <a href="#savedate" className="scroll-cue reveal is-visible">
           {t.scrollCue}

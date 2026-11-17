@@ -9,7 +9,9 @@ export interface Wedding {
   couple_name1: string;
   couple_name2: string;
   monogram?: string | null;
+  grandparents1?: string | null;
   parents1?: string | null;
+  grandparents2?: string | null;
   parents2?: string | null;
   hashtag?: string | null;
   emblem_type: EmblemType;

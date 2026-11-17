@@ -14,7 +14,9 @@
   $$('[data-name="1"]').forEach(e => e.textContent = W.couple.name1);
   $$('[data-name="2"]').forEach(e => e.textContent = W.couple.name2);
   $$("[data-hashtag]").forEach(e => e.textContent = W.couple.hashtag);
+  const gp1 = $('[data-grandparents="1"]'); if (gp1 && W.couple.grandparents1) gp1.textContent = W.couple.grandparents1;
   $('[data-parents="1"]').textContent = W.couple.parents1;
+  const gp2 = $('[data-grandparents="2"]'); if (gp2 && W.couple.grandparents2) gp2.textContent = W.couple.grandparents2;
   $('[data-parents="2"]').textContent = W.couple.parents2;
   Object.keys(W.shloka).forEach(k => { const el = $(`[data-shloka="${k}"]`); if (el) el.textContent = W.shloka[k]; });
   $('[data-date="month"]').textContent = W.saveTheDate.month;
@@ -219,8 +221,12 @@
     // Hero
     const blessingEl = $('[data-shloka="blessing"]');
     if (blessingEl) blessingEl.textContent = t.blessing;
+    const gp1 = $('[data-grandparents="1"]');
+    if (gp1) gp1.textContent = t.grandparents1 || '';
     const p1 = $('[data-parents="1"]');
     if (p1) p1.textContent = t.parents1;
+    const gp2 = $('[data-grandparents="2"]');
+    if (gp2) gp2.textContent = t.grandparents2 || '';
     const p2 = $('[data-parents="2"]');
     if (p2) p2.textContent = t.parents2;
     const scrollCue = $('.scroll-cue');

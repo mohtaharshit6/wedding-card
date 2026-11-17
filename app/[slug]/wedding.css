@@ -314,8 +314,41 @@ img { max-width: 100%; display: block; }
   margin: .6rem 0 1rem; line-height: 1;
 }
 .hero__names .script { font-size: clamp(2.8rem, 14vw, 4.5rem); color: var(--rose); word-break: break-word; }
-.hero__names .amp { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); margin: -.2rem 0; }
-.hero__parents { font-family: var(--font-body); font-style: italic; color: var(--red-soft); font-size: .92rem; }
+.hero__family {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.1rem auto 0.6rem;
+  max-width: 540px;
+}
+.hero__family-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.hero__grandparents {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--ink);
+  font-size: 0.94rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+.hero__parents {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--red-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.hero__family-divider {
+  color: var(--gold);
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin: 0.15rem 0;
+}
 .scroll-cue {
   display: inline-block; margin-top: 1.8rem; text-decoration: none;
   font-family: var(--font-sans); letter-spacing: .25em; font-size: .68rem;
@@ -555,10 +588,16 @@ img { max-width: 100%; display: block; }
   max-width: 620px;
   margin: 0.8rem auto 1.2rem;
 }
+.lang-hi .hero__grandparents {
+  font-size: 1.15rem !important;
+  line-height: 1.75 !important;
+  font-style: normal;
+}
 .lang-hi .hero__parents {
   font-size: 1.15rem !important;
   line-height: 1.75 !important;
-  margin-bottom: 0.5rem;
+  font-style: normal;
+  margin-bottom: 0.2rem;
 }
 .lang-hi .scroll-cue {
   font-size: 0.95rem !important;
