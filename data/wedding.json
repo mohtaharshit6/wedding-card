@@ -1,0 +1,158 @@
+{
+  "wedding": {
+    "id": "madhav-ritika-wedding",
+    "slug": "madhav-ritika",
+    "status": "published",
+    "couple_name1": "Madhav",
+    "couple_name2": "Ritika",
+    "monogram": "M&R",
+    "parents1": "Son of Shri Pawan Kumar Daga & Smt. Suman Devi Daga",
+    "parents2": "Daughter of Shri Manoj Kumar Mohta & Smt. Shobha Devi Mohta",
+    "hashtag": "#MADefoRIT",
+    "emblem_type": "ganesha",
+    "emblem_url": "/assets/img/ganesha.png",
+    "has_shloka": true,
+    "shloka_line1": "॥ श्री गणेशाय नमः ॥",
+    "shloka_line2": "वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।",
+    "shloka_line3": "निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥",
+    "blessing_text": "With the blessings of Shri Ganesh Ji and our beloved families, we joyfully invite you to celebrate the marriage of",
+    "wedding_date_time": "2027-01-25T17:00:00",
+    "venue_name": "Shehnai Garden Banquets",
+    "venue_address": "Auropota, Dhapa, Kolkata, West Bengal 700105",
+    "venue_image_url": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1000&q=80",
+    "venue_maps_link": "https://www.google.com/maps/search/?api=1&query=Shehnai+Garden+Banquets+Auropota+Dhapa+Kolkata+700105",
+    "music_url": "",
+    "footer_line1": "Awaiting your presence and blessings",
+    "footer_line2": "Mohta & Daga Family",
+    "updated_at": "2026-11-17T12:00:00.000Z"
+  },
+  "theme": {
+    "wedding_id": "madhav-ritika-wedding",
+    "color_primary": "#6E1414",
+    "color_secondary": "#8E1B1B",
+    "color_accent": "#C9A24B",
+    "color_accent_soft": "#E3C77E",
+    "color_background": "#F6EEE0",
+    "color_background_alt": "#EFE3CF",
+    "color_rose": "#B6566B",
+    "color_ink": "#3A2A22"
+  },
+  "events": [
+    {
+      "id": "e1",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 1,
+      "name": "Haldi & Mehndi",
+      "day": "Saturday",
+      "date": "23 Jan 2027",
+      "time": "3:00 PM",
+      "image_url": "/assets/img/haldi-mehndi.jpg",
+      "description": "A vibrant celebration of turmeric, fragrant henna, music and blessings.",
+      "dress_code_label": "Yellows · Bright Greens · Floral Ethnic",
+      "dress_code_colors": [
+        "#F2C94C",
+        "#3FA34D",
+        "#F2994A"
+      ],
+      "venue": "Geetanjali Regency · VIP Road, Tegharia, Kolkata",
+      "maps_link": "https://www.google.com/maps/search/?api=1&query=Geetanjali+Regency+VIP+Road+Tegharia+Kolkata+700052"
+    },
+    {
+      "id": "e2",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 2,
+      "name": "Mayra",
+      "day": "Sunday",
+      "date": "24 Jan 2027",
+      "time": "10:00 AM",
+      "image_url": "/assets/img/mayra.jpg",
+      "description": "A celebration of family, rich traditions, and heartfelt blessings.",
+      "dress_code_label": "Bandhani · Traditional Rajasthani · Festive Attire",
+      "dress_code_colors": [
+        "#C9A24B",
+        "#B6566B",
+        "#8E1B1B"
+      ],
+      "venue": "Geetanjali Regency · VIP Road, Tegharia, Kolkata",
+      "maps_link": "https://www.google.com/maps/search/?api=1&query=Geetanjali+Regency+VIP+Road+Tegharia+Kolkata+700052"
+    },
+    {
+      "id": "e3",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 3,
+      "name": "Sangeet Night",
+      "day": "Sunday",
+      "date": "24 Jan 2027",
+      "time": "7:00 PM",
+      "image_url": "/assets/img/sangeet.jpg",
+      "description": "An electrifying evening of music, dance, and endless celebration.",
+      "dress_code_label": "Pastel Pink · Peach · Mint · Comfortable & breezy",
+      "dress_code_colors": [
+        "#F6C6D0",
+        "#F2C9A0",
+        "#A8D5BA"
+      ],
+      "venue": "Divinity Pavillion Banquet Hall · Lake Town, Kolkata",
+      "maps_link": "https://www.google.com/maps/search/?api=1&query=Divinity+Pavillion+Banquet+Hall+Golaghata+Road+Lake+Town+Kolkata+700048"
+    },
+    {
+      "id": "e4",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 4,
+      "name": "Phere",
+      "day": "Monday",
+      "date": "25 Jan 2027",
+      "time": "5:00 PM",
+      "image_url": "/assets/img/phere.jpg",
+      "description": "The sacred vows and seven pheras around the holy fire.",
+      "dress_code_label": "Traditional · Reds · Golds",
+      "dress_code_colors": [
+        "#8E1B1B",
+        "#C9A24B",
+        "#B6566B"
+      ],
+      "venue": "Shehnai Garden Banquets · Dhapa, Kolkata",
+      "maps_link": "https://www.google.com/maps/search/?api=1&query=Shehnai+Garden+Banquets+Auropota+Dhapa+Kolkata+700105"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "g1",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 1,
+      "image_url": "/assets/img/gallery-1.jpg",
+      "caption": "Where it all began",
+      "is_bw": false
+    },
+    {
+      "id": "g2",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 2,
+      "image_url": "/assets/img/gallery-2.jpg",
+      "caption": "Memories together",
+      "is_bw": false
+    },
+    {
+      "id": "g3",
+      "wedding_id": "madhav-ritika-wedding",
+      "sort_order": 3,
+      "image_url": "/assets/img/gallery-3.jpg",
+      "caption": "Forever & always",
+      "is_bw": false
+    }
+  ],
+  "rsvpConfig": {
+    "wedding_id": "madhav-ritika-wedding",
+    "mode": "database",
+    "whatsapp_number": "919999999999",
+    "email": "madhav.ritika.wedding@example.com",
+    "deadline_date": "2027-01-15",
+    "meal_options": [
+      "No preference",
+      "Vegetarian",
+      "Jain",
+      "Vegan",
+      "No onion / no garlic"
+    ]
+  }
+}

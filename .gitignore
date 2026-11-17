@@ -10,3 +10,11 @@ zoom/
 Thumbs.db
 .DS_Store
 *.log
+
+# Dependencies & Build artifacts
+node_modules/
+.next/
+out/
+.env.local
+.env.*.local
+

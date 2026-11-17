@@ -1,0 +1,35 @@
+[
+  {
+    "id": "rsvp_1793902020846",
+    "wedding_id": "madhav-ritika-wedding",
+    "guest_name": "Harshit Mohta",
+    "contact": "+91 99999 88888",
+    "attending_status": "Joyfully accepts",
+    "guest_count": 2,
+    "meal_preference": "Jain",
+    "message": "Bohot bohot badhai Madhav & Ritika!",
+    "submitted_at": "2026-11-05T18:07:00.846Z"
+  },
+  {
+    "id": "r1",
+    "wedding_id": "madhav-ritika-wedding",
+    "guest_name": "Ananya Sharma",
+    "contact": "+91 98765 43210",
+    "attending_status": "Joyfully accepts",
+    "guest_count": 2,
+    "meal_preference": "Vegetarian",
+    "message": "Wishing you both a lifetime of happiness, laughter and unconditional love!",
+    "submitted_at": "2026-11-05T10:30:00Z"
+  },
+  {
+    "id": "r2",
+    "wedding_id": "madhav-ritika-wedding",
+    "guest_name": "Vikram & Priya Singhania",
+    "contact": "vikram.singh@example.com",
+    "attending_status": "Joyfully accepts",
+    "guest_count": 4,
+    "meal_preference": "Jain",
+    "message": "So thrilled to celebrate with you! See you at the Sangeet.",
+    "submitted_at": "2026-11-04T15:20:00Z"
+  }
+]

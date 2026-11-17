@@ -26,11 +26,6 @@
     <button class="intro__skip" id="introSkip">Skip ›</button>
   </div>
 
-  <!-- ===================== MUSIC TOGGLE (persistent) ===================== -->
-  <button class="music-fab" id="musicBtn" aria-label="Play music" title="Play music">
-    <span class="music-fab__icon">♪</span>
-  </button>
-
   <main class="page" id="page">
 
     <!-- ===================== HERO / INVITATION ===================== -->
@@ -50,15 +45,15 @@
         <p class="hero__blessing reveal" data-shloka="blessing"></p>
 
         <h1 class="hero__names reveal">
-          <span class="script" data-name="1">Meenal</span>
+          <span class="script" data-name="1">Madhav</span>
           <span class="amp">&amp;</span>
-          <span class="script" data-name="2">Avinash</span>
+          <span class="script" data-name="2">Ritika</span>
         </h1>
 
         <p class="hero__parents reveal" data-parents="1"></p>
         <p class="hero__parents reveal" data-parents="2"></p>
 
-        <a href="#savedate" class="scroll-cue reveal">SCROLL TO SEE MAGIC <span>↓</span></a>
+        <a href="#savedate" class="scroll-cue reveal">SCROLL FOR MORE INFO <span>↓</span></a>
       </div>
     </section>
 
@@ -111,23 +106,24 @@
       <div class="events__list" id="eventsList"></div>
     </section>
 
-    <!-- ===================== VENUE ===================== -->
-    <section class="section venue" id="venue">
-      <h2 class="display reveal">The Venue</h2>
-      <div class="venue__card reveal">
-        <img class="venue__img" id="venueImg" alt="Venue" loading="lazy" />
-        <div class="venue__body">
-          <h3 class="venue__name" data-venue="name"></h3>
-          <p class="venue__addr" data-venue="address"></p>
-          <a class="btn" id="venueMaps" target="_blank" rel="noopener">📍 View on Maps</a>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
       <p class="footer__line1" data-footer="line1"></p>
       <p class="footer__line2" data-footer="line2"></p>
+      <div class="footer__contact" style="margin: 1.2rem auto; opacity: 0.95;">
+        <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-soft); margin-bottom: 0.35rem; font-family: var(--font-sans); font-weight: 500;">
+          For inquiries &amp; coordination
+        </p>
+        <p style="display: flex; justify-content: center; align-items: center; gap: 0.85rem; flex-wrap: wrap; font-size: 1.05rem; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.03em;">
+          <a href="tel:+919331099998" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span aria-hidden="true">📞</span> +91 93310 99998
+          </a>
+          <span style="color: var(--gold-soft); opacity: 0.5;">|</span>
+          <a href="tel:+919903723712" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span aria-hidden="true">📞</span> +91 99037 23712
+          </a>
+        </p>
+      </div>
       <p class="footer__hash" data-hashtag></p>
       <button class="btn btn--gold" id="shareBtn">Share this invite</button>
       <p class="footer__couple"><span class="script" data-name="1"></span> &amp; <span class="script" data-name="2"></span></p>
@@ -141,8 +137,6 @@
     <img class="lightbox__img" id="lbImg" alt="" />
     <button class="lightbox__nav lightbox__next" id="lbNext" aria-label="Next">›</button>
   </div>
-
-  <audio id="bgAudio" loop preload="none"></audio>
 
   <script src="assets/js/config.js"></script>
   <script src="assets/js/effects.js"></script>

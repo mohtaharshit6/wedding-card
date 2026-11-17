@@ -20,13 +20,13 @@
   $('[data-date="month"]').textContent = W.saveTheDate.month;
   $('[data-date="day"]').textContent = W.saveTheDate.day;
   $('[data-date="year"]').textContent = W.saveTheDate.year;
-  $('[data-venue="name"]').textContent = W.venue.name;
-  $('[data-venue="address"]').textContent = W.venue.address;
-  $("#venueImg").src = W.venue.image;
-  $("#venueMaps").href = W.venue.mapsLink;
-  $('[data-footer="line1"]').textContent = W.footer.line1;
-  $('[data-footer="line2"]').textContent = W.footer.line2;
-  $("#bgAudio").src = W.music.src;
+  const vName = $('[data-venue="name"]'); if (vName && W.venue) vName.textContent = W.venue.name;
+  const vAddr = $('[data-venue="address"]'); if (vAddr && W.venue) vAddr.textContent = W.venue.address;
+  const vImg = $("#venueImg"); if (vImg && W.venue) vImg.src = W.venue.image;
+  const vMaps = $("#venueMaps"); if (vMaps && W.venue) vMaps.href = W.venue.mapsLink;
+  const fLine1 = $('[data-footer="line1"]'); if (fLine1 && W.footer) fLine1.textContent = W.footer.line1;
+  const fLine2 = $('[data-footer="line2"]'); if (fLine2 && W.footer) fLine2.textContent = W.footer.line2;
+  const bgAudio = $("#bgAudio"); if (bgAudio && W.music) bgAudio.src = W.music.src || "";
 
   /* ---------- Gallery (vertical carousel) ---------- */
   $("#galleryTrack").innerHTML = W.gallery.map((g, i) => `
@@ -40,9 +40,7 @@
     `<button data-dot="${i}" aria-label="Photo ${i + 1}"></button>`).join("");
 
   /* ---------- Events ---------- */
-  $("#eventsList").innerHTML = W.events.map(e => {
-    const dots = (e.dressCode.colors || []).map(c => `<i style="background:${c}"></i>`).join("");
-    return `
+  $("#eventsList").innerHTML = W.events.map(e => `
     <article class="event reveal">
       <img class="event__img" src="${e.image}" alt="${e.name}" loading="lazy" />
       <div class="event__body">
@@ -50,11 +48,9 @@
         <p class="event__when">${e.day} · ${e.date} · ${e.time}</p>
         <p class="event__desc">“${e.description}”</p>
         <p class="event__venue">${e.venue}</p>
-        <div class="event__dress"><span>Dress code:</span><span class="dress__dots">${dots}</span><span>${e.dressCode.label}</span></div>
         <p style="margin-top:1rem"><a class="btn event__dir" href="${e.mapsLink}" target="_blank" rel="noopener">📍 Get Directions</a></p>
       </div>
-    </article>`;
-  }).join("");
+    </article>`).join("");
 
   /* ---------- Scroll reveal (after dynamic content injected) ---------- */
   const revealAll = () => $$(".reveal:not(.is-visible)").forEach(el => el.classList.add("is-visible"));
@@ -73,16 +69,18 @@
     setTimeout(revealAll, 3500);
   }
 
-  /* ---------- Music ---------- */
+  /* ---------- Music (optional) ---------- */
   const audio = $("#bgAudio"), musicBtn = $("#musicBtn");
-  const showMusic = () => musicBtn.classList.add("is-ready");
-  window.addEventListener("intro:done", showMusic);
-  setTimeout(showMusic, 6000); // safety
-  musicBtn.addEventListener("click", () => {
-    if (audio.paused) {
-      audio.play().then(() => { musicBtn.classList.add("is-playing"); musicBtn.title = "Pause music"; }).catch(() => {});
-    } else { audio.pause(); musicBtn.classList.remove("is-playing"); musicBtn.title = "Play music"; }
-  });
+  if (audio && musicBtn) {
+    const showMusic = () => musicBtn.classList.add("is-ready");
+    window.addEventListener("intro:done", showMusic);
+    setTimeout(showMusic, 6000); // safety
+    musicBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play().then(() => { musicBtn.classList.add("is-playing"); musicBtn.title = "Pause music"; }).catch(() => {});
+      } else { audio.pause(); musicBtn.classList.remove("is-playing"); musicBtn.title = "Play music"; }
+    });
+  }
 
   /* ---------- Countdown ---------- */
   const target = new Date(W.weddingDateTime).getTime();
