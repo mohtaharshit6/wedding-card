@@ -66,21 +66,17 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
           {/* Contact 1 */}
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '0.45rem',
-              background: 'rgba(0, 0, 0, 0.18)',
-              padding: '0.35rem 0.75rem',
-              borderRadius: '24px',
-              border: '1px solid rgba(227, 199, 126, 0.25)',
-              flexWrap: 'wrap',
               justifyContent: 'center',
+              gap: '0.5rem',
+              flexWrap: 'nowrap',
             }}
           >
-            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500 }}>
+            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500, whiteSpace: 'nowrap' }}>
               +91 93310 99998
             </span>
-            <span style={{ opacity: 0.4, color: 'var(--gold-soft)' }}>•</span>
+            <span style={{ opacity: 0.4, color: 'var(--gold-soft)', margin: '0 0.1rem' }}>•</span>
             <a
               href="tel:+919331099998"
               style={{
@@ -88,11 +84,12 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.2rem',
+                gap: '0.25rem',
                 fontSize: '0.82rem',
-                padding: '0.2rem 0.45rem',
-                borderRadius: '12px',
+                padding: '0.22rem 0.55rem',
+                borderRadius: '14px',
                 background: 'rgba(255, 255, 255, 0.12)',
+                whiteSpace: 'nowrap',
               }}
               title="Call"
             >
@@ -107,12 +104,13 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.2rem',
+                gap: '0.25rem',
                 fontSize: '0.82rem',
-                padding: '0.2rem 0.55rem',
-                borderRadius: '12px',
+                padding: '0.22rem 0.6rem',
+                borderRadius: '14px',
                 background: 'rgba(37, 211, 102, 0.16)',
                 fontWeight: 500,
+                whiteSpace: 'nowrap',
               }}
               title="WhatsApp"
             >
@@ -123,21 +121,17 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
           {/* Contact 2 */}
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '0.45rem',
-              background: 'rgba(0, 0, 0, 0.18)',
-              padding: '0.35rem 0.75rem',
-              borderRadius: '24px',
-              border: '1px solid rgba(227, 199, 126, 0.25)',
-              flexWrap: 'wrap',
               justifyContent: 'center',
+              gap: '0.5rem',
+              flexWrap: 'nowrap',
             }}
           >
-            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500 }}>
+            <span style={{ letterSpacing: '0.04em', color: '#ffffff', fontWeight: 500, whiteSpace: 'nowrap' }}>
               +91 99037 23712
             </span>
-            <span style={{ opacity: 0.4, color: 'var(--gold-soft)' }}>•</span>
+            <span style={{ opacity: 0.4, color: 'var(--gold-soft)', margin: '0 0.1rem' }}>•</span>
             <a
               href="tel:+919903723712"
               style={{
@@ -145,11 +139,12 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.2rem',
+                gap: '0.25rem',
                 fontSize: '0.82rem',
-                padding: '0.2rem 0.45rem',
-                borderRadius: '12px',
+                padding: '0.22rem 0.55rem',
+                borderRadius: '14px',
                 background: 'rgba(255, 255, 255, 0.12)',
+                whiteSpace: 'nowrap',
               }}
               title="Call"
             >
@@ -164,12 +159,13 @@ export default function FooterSection({ wedding }: FooterSectionProps) {
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.2rem',
+                gap: '0.25rem',
                 fontSize: '0.82rem',
-                padding: '0.2rem 0.55rem',
-                borderRadius: '12px',
+                padding: '0.22rem 0.6rem',
+                borderRadius: '14px',
                 background: 'rgba(37, 211, 102, 0.16)',
                 fontWeight: 500,
+                whiteSpace: 'nowrap',
               }}
               title="WhatsApp"
             >
