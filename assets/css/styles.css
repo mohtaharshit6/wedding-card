@@ -27,13 +27,23 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  font-size: 16px !important;
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  scroll-behavior: smooth;
+}
 body {
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--maroon);
+  font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
   overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
@@ -73,21 +83,21 @@ img { max-width: 100%; display: block; }
 .script-display { font-family: var(--font-script); color: var(--rose); font-weight: 400; }
 .script-display::after { background: var(--rose); }
 .kicker {
-  text-align: center; letter-spacing: .4em; font-family: var(--font-sans);
-  font-size: .7rem; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem;
+  text-align: center; letter-spacing: .3em; font-family: var(--font-sans);
+  font-size: .85rem; font-weight: 600; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem;
 }
 .section__sub {
   text-align: center; color: var(--red-soft); font-family: var(--font-body);
-  font-style: italic; margin-top: .6rem; font-size: 1rem;
+  font-style: italic; margin-top: .6rem; font-size: 1.12rem; line-height: 1.5;
 }
 .script { font-family: var(--font-script); }
 
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-block; cursor: pointer; text-decoration: none;
-  font-family: var(--font-sans); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  font-family: var(--font-sans); font-size: .92rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
   color: #fff; background: var(--red); border: 1px solid var(--red);
-  padding: .85rem 1.7rem; border-radius: 999px;
+  padding: .85rem 1.8rem; border-radius: 999px;
   transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
 }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(110,20,20,.35); }
@@ -95,7 +105,7 @@ img { max-width: 100%; display: block; }
 .btn--ghost:hover { background: rgba(201,162,75,.12); box-shadow: none; }
 .btn--full { width: 100%; }
 /* For dark/maroon backgrounds (e.g. footer) — readable gold-on-dark */
-.btn--gold { background: var(--gold); color: var(--maroon); border-color: var(--gold-soft); font-weight: 500; }
+.btn--gold { background: var(--gold); color: var(--maroon); border-color: var(--gold-soft); font-weight: 600; }
 .btn--gold:hover { background: var(--gold-soft); box-shadow: 0 10px 22px rgba(0,0,0,.3); }
 
 /* ---------- Sections ---------- */
@@ -289,11 +299,11 @@ img { max-width: 100%; display: block; }
 .corner--br { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
 
 .ganesha { display: flex; justify-content: center; margin-bottom: .8rem; }
-.shloka { font-family: var(--font-deva); color: var(--maroon); font-size: .92rem; line-height: 1.9; }
-.shloka--title { font-size: 1.1rem; font-weight: 600; margin-bottom: .3rem; }
+.shloka { font-family: var(--font-deva); color: var(--maroon); font-size: 1.05rem; line-height: 1.85; }
+.shloka--title { font-size: 1.22rem; font-weight: 600; margin-bottom: .3rem; }
 .hero__blessing {
-  margin: 1.4rem auto 1rem; max-width: 34ch; font-style: italic;
-  color: var(--ink); font-size: 1.02rem;
+  margin: 1.4rem auto 1rem; max-width: 38ch; font-style: italic;
+  color: var(--ink); font-size: 1.15rem; line-height: 1.75;
 }
 .hero__names {
   display: flex; flex-direction: column; align-items: center;
@@ -319,26 +329,26 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-body);
   font-style: italic;
   color: var(--ink);
-  font-size: 0.94rem;
-  line-height: 1.5;
+  font-size: 1.06rem;
+  line-height: 1.55;
   opacity: 0.9;
 }
 .hero__parents {
   font-family: var(--font-body);
   font-style: italic;
   color: var(--red-soft);
-  font-size: 0.94rem;
-  line-height: 1.5;
+  font-size: 1.06rem;
+  line-height: 1.55;
 }
 .hero__family-divider {
   color: var(--gold);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   opacity: 0.7;
   margin: 0.15rem 0;
 }
 .scroll-cue {
   display: inline-block; margin-top: 1.8rem; text-decoration: none;
-  font-family: var(--font-sans); letter-spacing: .25em; font-size: .68rem;
+  font-family: var(--font-sans); letter-spacing: .2em; font-size: .82rem; font-weight: 600;
   color: var(--gold); text-transform: uppercase;
 }
 .scroll-cue span { display: block; margin-top: .3rem; font-size: 1.1rem; animation: bob 1.6s infinite; }
@@ -348,7 +358,7 @@ img { max-width: 100%; display: block; }
    SAVE THE DATE (scratch)
    ===================================================================== */
 .savedate { text-align: center; }
-.savedate__hint { font-style: italic; color: var(--red-soft); margin: .4rem 0 1.6rem; }
+.savedate__hint { font-style: italic; color: var(--red-soft); margin: .4rem 0 1.6rem; font-size: 1.08rem; line-height: 1.6; }
 .scratch {
   position: relative; max-width: 360px; margin: 0 auto;
   border-radius: 12px; overflow: hidden;
@@ -359,15 +369,15 @@ img { max-width: 100%; display: block; }
   padding: 1.1rem .3rem; display: flex; flex-direction: column; gap: .4rem;
   box-shadow: 0 6px 14px rgba(0,0,0,.06);
 }
-.tile__label { font-family: var(--font-sans); font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-.tile__val { font-family: var(--font-display); font-size: clamp(1.6rem, 7vw, 2.2rem); color: var(--maroon); font-weight: 600; }
+.tile__label { font-family: var(--font-sans); font-size: .82rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); }
+.tile__val { font-family: var(--font-display); font-size: 2.1rem; color: var(--maroon); font-weight: 600; }
 .scratch__canvas {
   position: absolute; inset: 0; width: 100%; height: 100%;
   cursor: grab; touch-action: none; border-radius: 12px;
 }
 .scratch__canvas.is-cleared { opacity: 0; transition: opacity .5s ease; pointer-events: none; }
 .savedate__revealed {
-  margin-top: 1.4rem; font-family: var(--font-display); font-size: 1.4rem;
+  margin-top: 1.4rem; font-family: var(--font-display); font-size: 1.55rem; font-weight: 600;
   color: var(--rose); opacity: 0; transition: opacity .6s ease;
 }
 .savedate__revealed.show { opacity: 1; }
@@ -383,10 +393,10 @@ img { max-width: 100%; display: block; }
 .cd-unit { display: flex; flex-direction: column; min-width: 58px; }
 .cd-unit span {
   font-family: var(--font-display); font-weight: 600; color: var(--maroon);
-  font-size: clamp(2rem, 9vw, 3rem); line-height: 1;
+  font-size: 2.6rem; line-height: 1;
 }
-.cd-unit small { font-family: var(--font-sans); font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-top: .35rem; }
-.cd-sep { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); align-self: flex-start; margin-top: .2rem; }
+.cd-unit small { font-family: var(--font-sans); font-size: .82rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: .35rem; }
+.cd-sep { font-family: var(--font-display); font-size: 2rem; color: var(--gold); align-self: flex-start; margin-top: .2rem; }
 
 /* =====================================================================
    FOREVER US (vertical carousel of polaroids)
@@ -442,18 +452,18 @@ img { max-width: 100%; display: block; }
 }
 .event__img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
 .event__body { padding: 1.3rem 1.4rem 1.5rem; text-align: center; }
-.event__name { font-family: var(--font-display); font-weight: 600; font-size: 1.9rem; color: var(--maroon); }
-.event__when { font-family: var(--font-sans); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--rose); margin-top: .3rem; }
-.event__desc { font-style: italic; margin: .8rem 0 1rem; color: var(--ink); }
+.event__name { font-family: var(--font-display); font-weight: 600; font-size: 2.05rem; color: var(--maroon); }
+.event__when { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--maroon); margin-top: .4rem; }
+.event__desc { font-style: italic; margin: .8rem 0 1rem; color: var(--ink); font-size: 1.08rem; line-height: 1.65; }
 .event__dress {
   display: flex; align-items: center; justify-content: center; gap: .5rem; flex-wrap: wrap;
-  font-family: var(--font-sans); font-size: .72rem; color: var(--red-soft);
+  font-family: var(--font-sans); font-size: .82rem; color: var(--red-soft);
   border-top: 1px dashed rgba(201,162,75,.5); padding-top: .9rem;
 }
 .dress__dots { display: inline-flex; gap: .25rem; }
 .dress__dots i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.1); }
-.event__venue { font-family: var(--font-body); color: var(--maroon); margin: .8rem 0 1rem; font-size: .95rem; }
-.event__dir { font-size: .7rem; padding: .6rem 1.3rem; }
+.event__venue { font-family: var(--font-body); color: var(--maroon); margin: .8rem 0 1rem; font-size: 1.05rem; font-weight: 500; line-height: 1.5; }
+.event__dir { font-size: .92rem; font-weight: 600; padding: .75rem 1.6rem; }
 
 /* =====================================================================
    VENUE
@@ -509,11 +519,11 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(160deg, var(--red), var(--maroon));
   color: #f7e6c8; text-align: center; padding: clamp(2.6rem, 9vw, 4rem) var(--pad);
 }
-.footer__line1 { font-family: var(--font-display); font-size: 1.4rem; line-height: 1.3; }
-.footer__line2 { font-style: italic; opacity: .9; margin: .8rem auto 1.4rem; max-width: 34ch; }
-.footer__hash { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold-soft); margin-bottom: 1.2rem; }
+.footer__line1 { font-family: var(--font-display); font-size: 1.55rem; line-height: 1.4; }
+.footer__line2 { font-size: 1.35rem; font-style: italic; opacity: .95; margin: .8rem auto 1.4rem; max-width: 34ch; }
+.footer__hash { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold-soft); margin-bottom: 1.2rem; }
 .footer__couple { margin-top: 1.6rem; }
-.footer__couple .script { font-size: 2rem; color: var(--gold-soft); }
+.footer__couple .script { font-size: 2.3rem; color: var(--gold-soft); }
 
 /* =====================================================================
    LIGHTBOX
