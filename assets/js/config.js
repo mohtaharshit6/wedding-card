@@ -14,7 +14,7 @@ const WEDDING = {
     line3: "निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥",
     blessing: "With the blessings of Shri Ganesh Ji and our beloved families, we joyfully invite you to celebrate the marriage of",
   },
-  weddingDateTime: "2027-01-25T17:00:00",
+  weddingDateTime: "2027-01-25T19:00:00",
   saveTheDate: { month: "JAN", day: "25", year: "2027" },
   gallery: [
     {
@@ -92,7 +92,7 @@ const WEDDING = {
         "name": "Phere",
         "day": "Monday",
         "date": "25 Jan 2027",
-        "time": "5:00 PM",
+        "time": "7:00 PM",
         "image": "/assets/img/phere.jpg",
         "description": "The sacred vows and seven pheras around the holy fire.",
         "dressCode": {
