@@ -78,6 +78,10 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
     }
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('lang-hi', lang === 'hi');
+  }, [lang]);
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: themeStyles }} />
@@ -149,7 +153,7 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
         </button>
       </div>
 
-      <main className="page" id="page">
+      <main className={`page ${lang === 'hi' ? 'lang-hi' : ''}`} id="page">
         <HeroSection wedding={wedding} t={t} />
         <ScratchCard weddingDateTime={wedding.wedding_date_time} t={t} lang={lang} />
         <Countdown wedding={wedding} t={t} />

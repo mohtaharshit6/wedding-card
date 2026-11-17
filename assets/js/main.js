@@ -207,6 +207,7 @@
     if (!lang) lang = 'en';
     currentLang = lang;
     window.SELECTED_LANG = lang;
+    document.body.classList.toggle('lang-hi', lang === 'hi');
     const t = W.i18n && W.i18n[lang] ? W.i18n[lang] : (W.i18n ? W.i18n['en'] : null);
     if (!t) return;
 
@@ -285,7 +286,7 @@
           <p class="event__when">${e.day ? e.day + ' · ' : ''}${e.date} · ${e.time}</p>
           <p class="event__desc">“${e.description}”</p>
           <p class="event__venue">${e.venue}</p>
-          <p style="margin-top:1rem"><a class="btn event__dir" href="${orig.mapsLink || ''}" target="_blank" rel="noopener">📍 ${e.getDirections || 'Get Directions'}</a></p>
+          <p style="margin-top:1rem"><a class="btn event__dir" href="${orig.mapsLink || ''}" target="_blank" rel="noopener">${e.getDirections || '📍 Get Directions'}</a></p>
         </div>
       </article>`;
     }).join("");
