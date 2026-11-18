@@ -41,6 +41,8 @@ export default function ScratchCard({ weddingDateTime, t, lang }: ScratchCardPro
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    if (cleared) return;
+
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
       setCleared(true);
@@ -55,6 +57,7 @@ export default function ScratchCard({ weddingDateTime, t, lang }: ScratchCardPro
     function paint() {
       if (!canvas || !ctx) return;
       const r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return;
       canvas.width = r.width * dpr;
       canvas.height = r.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -72,9 +75,12 @@ export default function ScratchCard({ weddingDateTime, t, lang }: ScratchCardPro
       }
 
       ctx.fillStyle = 'rgba(110,20,20,.85)';
-      ctx.font = "600 16px 'Inter', sans-serif";
+      ctx.font = lang === 'hi'
+        ? "600 16px 'Noto Serif Devanagari', 'Inter', sans-serif"
+        : "600 16px 'Inter', sans-serif";
       ctx.textAlign = 'center';
-      ctx.fillText(lang === 'hi' ? '✦ यहाँ स्क्रैच करें ✦' : '✦ scratch here ✦', r.width / 2, r.height / 2 + 5);
+      ctx.textBaseline = 'middle';
+      ctx.fillText(t.scratchCanvasText || (lang === 'hi' ? '✦ यहाँ स्क्रैच करें ✦' : '✦ scratch here ✦'), r.width / 2, r.height / 2);
       ctx.globalCompositeOperation = 'destination-out';
     }
 

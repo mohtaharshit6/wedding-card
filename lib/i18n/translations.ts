@@ -23,6 +23,7 @@ export interface Translations {
   saveDateMonth: string;
   saveDateDay: string;
   saveDateYear: string;
+  scratchCanvasText: string;
   saveDateDone: string;
   countdownTitle: string;
   countdownDays: string;
@@ -59,6 +60,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     saveDateMonth: "JAN",
     saveDateDay: "25",
     saveDateYear: "2027",
+    scratchCanvasText: "✦ scratch here ✦",
     saveDateDone: "✨ See you there! ✨",
     countdownTitle: "Counting Down",
     countdownDays: "Days",
@@ -125,6 +127,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     saveDateMonth: "जनवरी",
     saveDateDay: "२५",
     saveDateYear: "२०२७",
+    scratchCanvasText: "✦ यहाँ स्क्रैच करें ✦",
     saveDateDone: "✨ आप सादर आमंत्रित हैं ✨",
     countdownTitle: "शुभ विवाह की प्रतीक्षा",
     countdownDays: "दिन",

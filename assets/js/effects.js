@@ -113,8 +113,11 @@
     const ctx = canvas.getContext("2d");
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
+    let drawing = false, done = false;
+
     function paint() {
       const r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return;
       canvas.width = r.width * dpr; canvas.height = r.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const g = ctx.createLinearGradient(0, 0, r.width, r.height);
@@ -123,14 +126,25 @@
       ctx.fillStyle = "rgba(255,255,255,.25)";
       for (let i = 0; i < 40; i++) ctx.fillRect(Math.random() * r.width, Math.random() * r.height, 2, 2);
       ctx.fillStyle = "rgba(110,20,20,.85)";
-      ctx.font = "600 16px 'Inter',sans-serif"; ctx.textAlign = "center";
-      ctx.fillText("✦ scratch here ✦", r.width / 2, r.height / 2);
+      const curLang = window.SELECTED_LANG || localStorage.getItem("wedding_lang") || "en";
+      ctx.font = curLang === 'hi'
+        ? "600 16px 'Noto Serif Devanagari', 'Inter', sans-serif"
+        : "600 16px 'Inter', sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const txt = (window.WEDDING && window.WEDDING.i18n && window.WEDDING.i18n[curLang] && window.WEDDING.i18n[curLang].scratchCanvasText)
+        || (curLang === 'hi' ? "✦ यहाँ स्क्रैच करें ✦" : "✦ scratch here ✦");
+      ctx.fillText(txt, r.width / 2, r.height / 2);
       ctx.globalCompositeOperation = "destination-out";
     }
+
     if (reduce) { canvas.classList.add("is-cleared"); if (opts.onDone) opts.onDone(); return; }
     paint();
 
-    let drawing = false, done = false;
+    canvas._repaint = () => { if (!done) paint(); };
+    canvas._isDone = () => done;
+    window.addEventListener("resize", () => { if (!done) paint(); });
+
     const pos = (e) => {
       const r = canvas.getBoundingClientRect();
       const t = e.touches ? e.touches[0] : e;

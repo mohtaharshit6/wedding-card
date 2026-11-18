@@ -203,15 +203,27 @@
   });
 
   /* ---------- Bilingual Support (English / Hindi) ---------- */
-  let currentLang = window.SELECTED_LANG || 'en';
+  let currentLang = "en";
+  try {
+    const saved = localStorage.getItem("wedding_lang");
+    if (saved === "hi" || saved === "en") currentLang = saved;
+  } catch (_) {}
+  if (window.SELECTED_LANG) currentLang = window.SELECTED_LANG;
 
   function applyLanguage(lang) {
     if (!lang) lang = 'en';
     currentLang = lang;
     window.SELECTED_LANG = lang;
+    try { localStorage.setItem("wedding_lang", lang); } catch (_) {}
     document.body.classList.toggle('lang-hi', lang === 'hi');
     const t = W.i18n && W.i18n[lang] ? W.i18n[lang] : (W.i18n ? W.i18n['en'] : null);
     if (!t) return;
+
+    // Repaint scratch card if not cleared yet
+    const sc = $("#scratchCanvas");
+    if (sc && sc._repaint && !sc._isDone()) {
+      sc._repaint();
+    }
 
     // Toggle button active state
     $$('[data-lang-btn]').forEach(b => {
@@ -326,8 +338,6 @@
     }
   });
 
-  // Initial apply if language already selected or default
-  if (window.SELECTED_LANG) {
-    applyLanguage(window.SELECTED_LANG);
-  }
+  // Initial apply with saved language or default
+  applyLanguage(window.SELECTED_LANG || currentLang);
 })();

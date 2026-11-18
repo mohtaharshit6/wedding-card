@@ -79,6 +79,22 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
   }, []);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem('wedding_lang');
+      if (saved === 'hi' || saved === 'en') {
+        setLang(saved);
+      }
+    } catch (_) {}
+  }, []);
+
+  const handleLangChange = (newLang: Language) => {
+    setLang(newLang);
+    try {
+      localStorage.setItem('wedding_lang', newLang);
+    } catch (_) {}
+  };
+
+  useEffect(() => {
     document.body.classList.toggle('lang-hi', lang === 'hi');
   }, [lang]);
 
@@ -92,7 +108,7 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
         emblemUrl={wedding.emblem_url}
         monogram={wedding.monogram}
         onDone={(chosenLang) => {
-          if (chosenLang) setLang(chosenLang);
+          if (chosenLang) handleLangChange(chosenLang);
           setIntroDone(true);
         }}
       />
@@ -118,7 +134,7 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
       >
         <button
           type="button"
-          onClick={() => setLang('en')}
+          onClick={() => handleLangChange('en')}
           style={{
             background: lang === 'en' ? 'var(--gold)' : 'transparent',
             color: lang === 'en' ? '#3A2A22' : 'var(--gold-soft)',
@@ -136,7 +152,7 @@ export default function WeddingPageClient({ data }: WeddingPageClientProps) {
         <span style={{ color: 'var(--gold-soft)', opacity: 0.4, fontSize: '0.72rem' }}>|</span>
         <button
           type="button"
-          onClick={() => setLang('hi')}
+          onClick={() => handleLangChange('hi')}
           style={{
             background: lang === 'hi' ? 'var(--gold)' : 'transparent',
             color: lang === 'hi' ? '#3A2A22' : 'var(--gold-soft)',

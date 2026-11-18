@@ -14,12 +14,23 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let finished = false, started = false;
   let chosenLang = "en";
+  try {
+    const saved = localStorage.getItem("wedding_lang");
+    if (saved === "hi" || saved === "en") chosenLang = saved;
+  } catch (_) {}
 
   function finish(lang) {
     if (finished) return;
     finished = true;
     if (lang) chosenLang = lang;
+    else {
+      try {
+        const saved = localStorage.getItem("wedding_lang");
+        if (saved === "hi" || saved === "en") chosenLang = saved;
+      } catch (_) {}
+    }
     window.SELECTED_LANG = chosenLang;
+    try { localStorage.setItem("wedding_lang", chosenLang); } catch (_) {}
     if (typeof window.setWeddingLanguage === "function") {
       window.setWeddingLanguage(chosenLang);
     }
@@ -33,6 +44,14 @@
   if (reduce || sessionStorage.getItem("introSeen")) {
     if (intro.parentNode) intro.remove();
     document.body.style.overflow = "";
+    try {
+      const saved = localStorage.getItem("wedding_lang");
+      if (saved === "hi" || saved === "en") chosenLang = saved;
+    } catch (_) {}
+    window.SELECTED_LANG = chosenLang;
+    if (typeof window.setWeddingLanguage === "function") {
+      window.setWeddingLanguage(chosenLang);
+    }
     window.dispatchEvent(new CustomEvent("intro:done", { detail: { lang: chosenLang } }));
     return;
   }
@@ -49,7 +68,14 @@
     if (started) return;
     started = true;
     if (lang) chosenLang = lang;
+    else {
+      try {
+        const saved = localStorage.getItem("wedding_lang");
+        if (saved === "hi" || saved === "en") chosenLang = saved;
+      } catch (_) {}
+    }
     window.SELECTED_LANG = chosenLang;
+    try { localStorage.setItem("wedding_lang", chosenLang); } catch (_) {}
     if (typeof window.setWeddingLanguage === "function") {
       window.setWeddingLanguage(chosenLang);
     }
@@ -156,14 +182,14 @@
 
   seal && seal.addEventListener("click", (e) => {
     e.stopPropagation();
-    run("en");
+    run(chosenLang);
   });
 
   intro.addEventListener("click", (e) => {
-    if (e.target !== skip && !e.target.closest(".seal__lang-btn")) run("en");
+    if (e.target !== skip && !e.target.closest(".seal__lang-btn")) run(chosenLang);
   });
 
-  const autoTrigger = setTimeout(() => run("en"), 4500);
+  const autoTrigger = setTimeout(() => run(chosenLang), 4500);
 
   // tidy timers when done
   window.addEventListener("intro:done", () => { clearTimeout(hardStop); clearTimeout(autoTrigger); });

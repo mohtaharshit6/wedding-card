@@ -23,21 +23,38 @@ export default function IntroSeal({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const finishedRef = useRef(false);
   const startedRef = useRef(false);
+  const getSavedLang = (): Language => {
+    if (typeof window !== 'undefined') {
+      try {
+        const s = localStorage.getItem('wedding_lang');
+        if (s === 'hi' || s === 'en') return s;
+      } catch (_) {}
+    }
+    return 'en';
+  };
+
   const chosenLangRef = useRef<Language>('en');
 
   const finish = (lang?: Language) => {
     if (finishedRef.current) return;
     finishedRef.current = true;
+    const finalLang = lang || chosenLangRef.current || getSavedLang();
+    if (typeof window !== 'undefined') {
+      try { localStorage.setItem('wedding_lang', finalLang); } catch (_) {}
+    }
     document.body.style.overflow = '';
     setVisible(false);
-    onDone(lang || chosenLangRef.current);
+    onDone(finalLang);
   };
 
   useEffect(() => {
+    const saved = getSavedLang();
+    chosenLangRef.current = saved;
+
     // Check reduced motion or previous view in session
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce || sessionStorage.getItem('introSeen')) {
-      finish();
+      finish(saved);
       return;
     }
 
@@ -45,10 +62,10 @@ export default function IntroSeal({
     document.body.style.overflow = 'hidden';
 
     // 9s hard safety net
-    const hardStop = setTimeout(finish, 9000);
+    const hardStop = setTimeout(() => finish(chosenLangRef.current), 9000);
     // 4.5s auto-trigger
     const autoTrigger = setTimeout(() => {
-      runAnimation();
+      runAnimation(chosenLangRef.current);
     }, 4500);
 
     return () => {
@@ -61,7 +78,11 @@ export default function IntroSeal({
   const runAnimation = (lang?: Language) => {
     if (startedRef.current) return;
     startedRef.current = true;
-    if (lang) chosenLangRef.current = lang;
+    const finalLang = lang || chosenLangRef.current || getSavedLang();
+    chosenLangRef.current = finalLang;
+    if (typeof window !== 'undefined') {
+      try { localStorage.setItem('wedding_lang', finalLang); } catch (_) {}
+    }
 
     setBursting(true);
 
@@ -214,7 +235,7 @@ export default function IntroSeal({
     <div
       className={`intro ${bursting ? 'is-bursting' : ''}`}
       onClick={(e) => {
-        if ((e.target as HTMLElement).id !== 'introSkip') runAnimation();
+        if ((e.target as HTMLElement).id !== 'introSkip') runAnimation(chosenLangRef.current);
       }}
     >
       <canvas ref={canvasRef} className="intro__canvas" />
@@ -223,7 +244,7 @@ export default function IntroSeal({
           role="button"
           tabIndex={0}
           aria-label="Tap to reveal the invitation"
-          onClick={() => runAnimation('en')}
+          onClick={() => runAnimation(chosenLangRef.current)}
           style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
         >
           <span className="seal__ring" />
@@ -300,7 +321,7 @@ export default function IntroSeal({
           </button>
         </div>
       </div>
-      <button type="button" className="intro__skip" id="introSkip" onClick={() => finish()}>
+      <button type="button" className="intro__skip" id="introSkip" onClick={() => finish(chosenLangRef.current)}>
         Skip ›
       </button>
     </div>
