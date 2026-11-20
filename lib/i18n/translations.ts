@@ -82,7 +82,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "Haldi & Mehndi",
         day: "Saturday",
         date: "23 Jan 2027",
-        time: "3:00 PM",
+        time: "3:00 PM onwards",
         description: "A vibrant celebration of turmeric, fragrant henna, music and blessings.",
         venue: "Geetanjali Regency · VIP Road, Tegharia, Kolkata",
         getDirections: "📍 Get Directions"
@@ -91,7 +91,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "Mayra",
         day: "Sunday",
         date: "24 Jan 2027",
-        time: "10:00 AM",
+        time: "10:00 AM onwards",
         description: "A celebration of family, rich traditions, and heartfelt blessings.",
         venue: "Geetanjali Regency · VIP Road, Tegharia, Kolkata",
         getDirections: "📍 Get Directions"
@@ -100,7 +100,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "Phere",
         day: "Monday",
         date: "25 Jan 2027",
-        time: "7:00 PM",
+        time: "7:00 PM onwards",
         description: "The sacred vows and seven pheras around the holy fire.",
         venue: "Shehnai Garden Banquets · Dhapa, Kolkata",
         getDirections: "📍 Get Directions"
@@ -149,7 +149,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "हल्दी एवं मेहंदी",
         day: "शनिवार",
         date: "२३ जनवरी २०२७",
-        time: "दोपहर ३:०० बजे",
+        time: "दोपहर ३:०० बजे से",
         description: "उल्लास, हरिद्रा, सुगंधित हिना और मांगलिक आशीर्वाद से सजी वेला।",
         venue: "गीतांजलि रीजेंसी · वीआईपी रोड, तेघरिया, कोलकाता",
         getDirections: "📍 रास्ता देखें"
@@ -158,7 +158,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "मायरा",
         day: "रविवार",
         date: "२४ जनवरी २०२७",
-        time: "प्रातः १०:०० बजे",
+        time: "प्रातः १०:०० बजे से",
         description: "पारिवारिक परंपराओं, ननिहाल के अपार स्नेह और शुभाशीर्वाद का पावन उत्सव।",
         venue: "गीतांजलि रीजेंसी · वीआईपी रोड, तेघरिया, कोलकाता",
         getDirections: "📍 रास्ता देखें"
@@ -167,7 +167,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         name: "शुभ फेरे",
         day: "सोमवार",
         date: "२५ जनवरी २०२७",
-        time: "सायं ७:०० बजे",
+        time: "सायं ७:०० बजे से",
         description: "पवित्र अग्नि के समक्ष सात फेरे और सात जन्मों के पावन वचन।",
         venue: "शहनाई गार्डन बैंक्वेट्स · धापा, कोलकाता",
         getDirections: "📍 रास्ता देखें"
